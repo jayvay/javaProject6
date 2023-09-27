@@ -199,16 +199,17 @@ public class DAO {
 			
 			while(rs.next()) {
 				Vector fVO = new Vector<>();
-				String strName = rs.getString("foodName");
-				int nIdx =rs.getInt("fIdx"); 
-				System.out.println("fIdx : "+nIdx);
-				System.out.println("foodName : "+strName);
+				String foodName = rs.getString("foodName");
+				int fIdx =rs.getInt("fIdx"); 
+				System.out.println("fIdx : "+fIdx);
+				System.out.println("foodName : "+ foodName);
 				
-				fVO.add(nIdx);
-				fVO.add(strName);
+				fVO.add(fIdx);
+				fVO.add(foodName);
 				fVO.add(rs.getString("productName"));
 				fVO.add(rs.getDouble("kcal"));
 				vData.add(fVO);
+				
 			}
 			
 		} catch (SQLException e) {

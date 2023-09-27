@@ -19,11 +19,13 @@ create table meal(
 	mIdx int not null auto_increment primary key,	-- 식사고유번호
 	cIdx int not null,								-- 회원고유번호(외래키)
 	fIdx int not null,								-- 음식고유번호(외래키)
-	meal varchar(20) not null,				-- 식사종류(아침,점심,저녁,간식)
-	mealTime datetime default now(),	-- 식사일자 및 시간
+	meal varchar(20) not null,				-- 식사 종류(아침,점심,저녁,간식)
+	mealTime datetime default now(),	-- 식사 일자 및 시간
+	mealMenu varchar(100),						-- 식사 메뉴
 	aMealKcal double default 0.0,			-- 한 끼 섭취 칼로리
 	dayKcal double default 0.0,				-- 하루 섭취 칼로리
-	dayGoalKcal double default 0.0		-- 하루 목표 섭취 칼로리
+	dayGoalKcal double default 0.0,		-- 하루 목표 섭취 칼로리
+	mealPhoto varchar(50)							-- 식사 사진
 );
 
 select * from meal;
@@ -45,8 +47,8 @@ create table food(
 );
 
 select * from food;
-
-drop table food;
+desc meal;
+drop table meal;
 
 select m.*,f.foodName,f.productName from meal m, food f where m.fidx=f.fIdx order by mIdx desc
 

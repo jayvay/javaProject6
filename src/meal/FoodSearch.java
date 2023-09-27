@@ -151,14 +151,14 @@ public class FoodSearch extends JFrame {
 		
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//foodTemp.replace("\n", "");
 				String temp = "";
 				String[] foodTemps = txtaFood.getText().split("\n");
 				for(String f : foodTemps) {
 					temp += f + ":";
 				}
 				System.out.println("temp: " + temp);
-				//txtaFood.setText(foodTemp);
+				
+				
 			}
 		});
 		

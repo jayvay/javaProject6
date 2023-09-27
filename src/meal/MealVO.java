@@ -7,9 +7,11 @@ public class MealVO {
 	private int fIdx;
 	private String meal;
 	private String mealTime;
+	private String mealMenu;
 	private double aMealKcal;
 	private double dayKcal;
 	private double dayGoalKcal;
+	private String mealPhoto;
 	
 	public int getmIdx() {
 		return mIdx;
@@ -41,6 +43,12 @@ public class MealVO {
 	public void setMealTime(String mealTime) {
 		this.mealTime = mealTime;
 	}
+	public String getMealMenu() {
+		return mealMenu;
+	}
+	public void setMealMenu(String mealMenu) {
+		this.mealMenu = mealMenu;
+	}
 	public double getaMealKcal() {
 		return aMealKcal;
 	}
@@ -59,10 +67,17 @@ public class MealVO {
 	public void setDayGoalKcal(double dayGoalKcal) {
 		this.dayGoalKcal = dayGoalKcal;
 	}
+	public String getMealPhoto() {
+		return mealPhoto;
+	}
+	public void setMealPhoto(String mealPhoto) {
+		this.mealPhoto = mealPhoto;
+	}
 	
 	@Override
 	public String toString() {
 		return "MealVO [mIdx=" + mIdx + ", cIdx=" + cIdx + ", fIdx=" + fIdx + ", meal=" + meal + ", mealTime=" + mealTime
-				+ ", aMealKcal=" + aMealKcal + ", dayKcal=" + dayKcal + ", dayGoalKcal=" + dayGoalKcal + "]";
+				+ ", mealMenu=" + mealMenu + ", aMealKcal=" + aMealKcal + ", dayKcal=" + dayKcal + ", dayGoalKcal="
+				+ dayGoalKcal + ", mealPhoto=" + mealPhoto + "]";
 	}
 }
