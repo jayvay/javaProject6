@@ -286,7 +286,6 @@ public class FoodSearchDetail extends JFrame {
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String fIdx = textfIdx.getText();
-//				System.out.println("fIdx : " + fIdx);
 				String foodName = textFoodName.getText();
 				String productName = textProductName.getText();
 				String intake = textIntake.getText();
@@ -300,37 +299,37 @@ public class FoodSearchDetail extends JFrame {
 				String natrium = textNatrium.getText();
 				
 				if(foodName.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "아이디를 입력하세요");
+					JOptionPane.showMessageDialog(null, "음식 이름을 입력하세요");
 					textFoodName.requestFocus();
 				} else if(productName.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "비밀번호를 입력하세요");
+					JOptionPane.showMessageDialog(null, "상품명을 입력하세요");
 					textProductName.requestFocus();
 				} else if(intake.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "이름을 입력하세요");
+					JOptionPane.showMessageDialog(null, "섭취량을 입력하세요");
 					textIntake.requestFocus();
 				} else if(kcal.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "나이를 입력하세요");
+					JOptionPane.showMessageDialog(null, "칼로리를 입력하세요");
 					textKcal.requestFocus();
 				} else if(carbohydrate.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "이메일을 입력하세요");
+					JOptionPane.showMessageDialog(null, "탄수화물을 입력하세요");
 					textCarbohydrate.requestFocus();
 				} else if(dietaryFiber.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "이메일을 입력하세요");
+					JOptionPane.showMessageDialog(null, "식이섬유를 입력하세요");
 					textDietaryFiber.requestFocus();
 				} else if(sugars.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "이메일을 입력하세요");
+					JOptionPane.showMessageDialog(null, "당류를 입력하세요");
 					textSugars.requestFocus();
 				} else if(protein.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "이메일을 입력하세요");
+					JOptionPane.showMessageDialog(null, "단백질을 입력하세요");
 					textProtein.requestFocus();
 				} else if(fat.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "이메일을 입력하세요");
+					JOptionPane.showMessageDialog(null, "지방을 입력하세요");
 					textFat.requestFocus();
 				} else if(saturatedFat.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "이메일을 입력하세요");
+					JOptionPane.showMessageDialog(null, "포화지방을 입력하세요");
 					textSaturatedFat.requestFocus();
 				} else if(natrium.trim().equals("")) {
-					JOptionPane.showMessageDialog(null, "이메일을 입력하세요");
+					JOptionPane.showMessageDialog(null, "나트륨을 입력하세요");
 					textNatrium.requestFocus();
 				} else {
 					fVO.setfIdx(Integer.parseInt(fIdx));

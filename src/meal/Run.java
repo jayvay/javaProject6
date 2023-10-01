@@ -20,6 +20,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
+import java.awt.Color;
+import java.awt.SystemColor;
+import javax.swing.UIManager;
 
 public class Run extends JFrame {
 
@@ -45,7 +48,7 @@ public class Run extends JFrame {
 
 	public Run() {
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(800, 600);
+		setSize(700, 650);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		setVisible(true);
@@ -55,53 +58,69 @@ public class Run extends JFrame {
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		ImageIcon imgMain = new ImageIcon(getClass().getResource("./images/main.jpg"));
+		imgMain =	imageSetSize(imgMain, 370, 300);
 		
 		JPanel pn1 = new JPanel();
-		pn1.setBounds(474, 113, 310, 448);
+		pn1.setBackground(new Color(204, 202, 202));
+		pn1.setBounds(0, 0, 784, 661);
 		contentPane.add(pn1);
 		pn1.setLayout(null);
 		
-		btnSignUp = new JButton("회 원 가 입");
-		btnSignUp.setFont(new Font("새굴림", Font.BOLD, 20));
-		btnSignUp.setBounds(42, 61, 197, 68);
-		pn1.add(btnSignUp);
-		
-		btnLogin = new JButton("로 그 인");
-		btnLogin.setFont(new Font("새굴림", Font.BOLD, 20));
-		btnLogin.setBounds(42, 190, 197, 68);
-		pn1.add(btnLogin);
-		
-		btnExit = new JButton("종 료");
-		btnExit.setFont(new Font("새굴림", Font.BOLD, 20));
-		btnExit.setBounds(42, 319, 197, 68);
-		pn1.add(btnExit);
-		
 		JPanel pn2 = new JPanel();
-		pn2.setBounds(0, 113, 476, 448);
-		contentPane.add(pn2);
+		pn2.setBounds(45, 171, 394, 337);
+		pn1.add(pn2);
+		pn2.setBackground(new Color(249, 228, 176));
 		pn2.setLayout(null);
 		
 		JLabel lblImg = new JLabel("");
-		ImageIcon imgMain = new ImageIcon(getClass().getResource("./images/main.jpg"));
-		imgMain =	imageSetSize(imgMain, 600, 400); 
-		lblImg.setIcon(imgMain);
-		lblImg.setBounds(24, 10, 452, 400);
+		lblImg.setBounds(12, 10, 373, 284);
 		pn2.add(lblImg);
+		lblImg.setIcon(imgMain);
 		
-		JPanel pn3 = new JPanel();
-		pn3.setBounds(0, 0, 784, 113);
-		contentPane.add(pn3);
-		pn3.setLayout(null);
+		btnLogin = new JButton("로 그 인");
+		btnLogin.setForeground(new Color(255, 255, 255));
+		btnLogin.setBackground(new Color(128, 0, 64));
+		btnLogin.setBounds(481, 304, 141, 68);
+		pn1.add(btnLogin);
+		btnLogin.setFont(new Font("Dialog", Font.BOLD, 17));
 		
-		JLabel lblTitle = new JLabel("밥먹어");
-		lblTitle.setFont(new Font("굴림", Font.BOLD, 41));
+		btnSignUp = new JButton("회 원 가 입");
+		btnSignUp.setBounds(481, 205, 141, 68);
+		pn1.add(btnSignUp);
+		btnSignUp.setForeground(Color.WHITE);
+		btnSignUp.setBackground(new Color(128, 0, 64));
+		btnSignUp.setFont(new Font("굴림", Font.BOLD, 17));
+		
+		btnExit = new JButton("종 료");
+		btnExit.setForeground(new Color(255, 255, 255));
+		btnExit.setBackground(new Color(128, 0, 64));
+		btnExit.setBounds(481, 406, 141, 68);
+		pn1.add(btnExit);
+		btnExit.setFont(new Font("Dialog", Font.BOLD, 17));
+		
+		JLabel lblTitle = new JLabel("BOBMUKJA");
+		lblTitle.setBounds(0, 61, 685, 79);
+		pn1.add(lblTitle);
+		lblTitle.setBackground(new Color(190, 202, 179));
+		lblTitle.setForeground(new Color(128, 0, 64));
+		lblTitle.setFont(new Font("Sitka Subheading", Font.BOLD, 37));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTitle.setBounds(0, 24, 784, 79);
-		pn3.add(lblTitle);
 		
+		JLabel lblNewLabel = new JLabel("New label");
+		lblNewLabel.setBounds(0, 0, 685, 612);
+		ImageIcon imgBack = new ImageIcon(getClass().getResource("./images/mainBack.png"));
+		imgBack =	imageSetSize(imgBack, 700, 700);
+		pn1.add(lblNewLabel);
+		lblNewLabel.setIcon(imgBack);
 		
-		
-		/*------------------------------------------------------*/
+	
+				
+		btnExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 
 		btnSignUp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -116,32 +135,35 @@ public class Run extends JFrame {
 				
 				JLabel lblId = new JLabel("아이디");
 				lblId.setHorizontalAlignment(SwingConstants.CENTER);
-				lblId.setFont(new Font("굴림", Font.PLAIN, 19));
-				lblId.setBounds(82, 108, 134, 58);
+				lblId.setFont(new Font("굴림", Font.BOLD, 15));
+				lblId.setBounds(49, 70, 134, 58);
 				pn2.add(lblId);
 				
 				textId = new JTextField();
 				textId.setText("admin");
 				textId.setFont(new Font("굴림", Font.PLAIN, 14));
 				textId.setColumns(10);
-				textId.setBounds(228, 108, 149, 47);
+				textId.setBounds(175, 70, 124, 47);
 				pn2.add(textId);
 				textId.requestFocus();
 				
 				JLabel lblPwd = new JLabel("비밀번호");
 				lblPwd.setHorizontalAlignment(SwingConstants.CENTER);
-				lblPwd.setFont(new Font("굴림", Font.PLAIN, 19));
-				lblPwd.setBounds(82, 188, 134, 39);
+				lblPwd.setFont(new Font("굴림", Font.BOLD, 15));
+				lblPwd.setBounds(49, 150, 134, 39);
 				pn2.add(lblPwd);
 				
 				textPwd = new JPasswordField();
-				textPwd.setBounds(228, 186, 149, 47);
+				textPwd.setBounds(175, 148, 124, 47);
 				pn2.add(textPwd);
 				
 				JButton btnLoginOk = new JButton("확 인");
-				btnLoginOk.setFont(new Font("굴림", Font.PLAIN, 19));
-				btnLoginOk.setBounds(106, 269, 271, 47);
+				btnLoginOk.setBackground(new Color(249, 228, 176));
+				btnLoginOk.setFont(new Font("굴림", Font.BOLD, 15));
+				btnLoginOk.setBounds(89, 231, 207, 39);
 				pn2.add(btnLoginOk);
+				
+				
 				
 				/*---------------로그인------------------*/
 				btnLoginOk.addActionListener(new ActionListener() {
@@ -158,13 +180,10 @@ public class Run extends JFrame {
 				});
 			}
 		});
-
 		
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
+		
+		
+		/*------------------------------------------------------*/
 		
 	}
 
@@ -181,8 +200,9 @@ public class Run extends JFrame {
 		if(cVO.getId() != null) {
 			if(cVO.getPwd().equals(textPwd.getText())) {
 				JOptionPane.showMessageDialog(null, cVO.getName() + "님 환영합니다~!");
+				System.out.println(cVO.getName());
 				dispose();
-				new MainMenu();
+				new MainMenu(cVO);
 			}
 			else if(!cVO.getPwd().equals(textPwd.getText())) {
 				JOptionPane.showMessageDialog(null, "비밀번호가 틀렸습니다. 비밀번호를 확인하세요.");

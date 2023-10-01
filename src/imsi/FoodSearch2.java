@@ -110,7 +110,7 @@ public class FoodSearch2 extends JFrame {
 				int row = tbl.getSelectedRow();
 				String foodName = tbl.getValueAt(row, 1).toString();
 				String productName = tbl.getValueAt(row, 2).toString();
-				fVO = dao.getFoodSearch(foodName, productName);
+				fVO = dao.getFoodSearch(productName);
 				if(fVO.getProductName() != null) {
 					new FoodSearchDetail(fVO);
 				}
@@ -127,7 +127,7 @@ public class FoodSearch2 extends JFrame {
 				
 				vdata2 = (Vector)vData.get(row);
 					
-				fVO = dao.getFoodSearch((String)vdata2.get(1), (String)vdata2.get(2));
+				fVO = dao.getFoodSearch((String)vdata2.get(2));
 				
 				//String foodProduct = (String)vdata2.get(1) + "/" + (String)vdata2.get(2);
 				

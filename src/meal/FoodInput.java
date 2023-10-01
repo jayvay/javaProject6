@@ -268,7 +268,7 @@ public class FoodInput extends JFrame {
 				String saturatedFat = textSaturatedFat.getText();
 				String natrium = textNatrium.getText();
 				
-				fVO = dao.getFoodSearch(foodName, productName);
+				fVO = dao.getFoodSearch(productName);
 				if(fVO.getFoodName() != null) {
 					JOptionPane.showMessageDialog(null, "이미 등록된 음식입니다.");
 					textFoodName.requestFocus();

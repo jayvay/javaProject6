@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Vector;
+
+import javax.swing.JComboBox;
 
 public class DAO {
 
@@ -55,7 +58,7 @@ public class DAO {
 
 	///////////////////////////////////////////////////
 	
-	public CompanionVO getCompSearch(String id) {
+	public CompanionVO getCompSearch(String id) {	//회원정보찾기
 		cVO = new CompanionVO();
 		try {
 			sql = "select * from companion where id = ?";
@@ -67,6 +70,7 @@ public class DAO {
 				cVO.setcIdx(rs.getInt("cIdx"));
 				cVO.setId(rs.getString("id"));
 				cVO.setPwd(rs.getString("pwd"));
+				cVO.setName(rs.getString("name"));
 				cVO.setAge(rs.getInt("age"));
 				cVO.setGender(rs.getString("gender"));
 				cVO.setEmail(rs.getString("email"));
@@ -80,7 +84,7 @@ public class DAO {
 		return cVO;
 	}
 
-	public int setCompInput(CompanionVO cVO) {
+	public int setCompInput(CompanionVO cVO) {	//회원가입
 		res = 0;
 		try {
 			sql = "insert into companion values (default, ?, ?, ?, ?, ?, ?, ?)";
@@ -102,24 +106,21 @@ public class DAO {
 		return res;
 	}
 
-	public Vector getMealList() {
+	public Vector getMealList() {	//식사전체조회(jtable)
 		Vector vData = new Vector<>();
 		try {
-			//sql = "select * from meal order by mIdx desc";
-			sql = "select m.*,f.foodName as foodName,f.productName as productName from meal m, food f where m.fidx=f.fIdx order by mIdx desc";	//이것이 조인이다
+			sql = "select * from meal order by mIdx desc";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
 				Vector mVO = new Vector<>();
 				mVO.add(rs.getInt("mIdx"));
-				mVO.add(rs.getString("mealTime"));
 				mVO.add(rs.getString("meal"));
-				mVO.add(rs.getString("foodname"));
-				mVO.add(rs.getString("productName"));
+				mVO.add(rs.getString("mealTime"));
+				mVO.add(rs.getString("mealMenu"));
 				mVO.add(rs.getDouble("aMealKcal"));
 				mVO.add(rs.getDouble("dayKcal"));
-				mVO.add(rs.getDouble("dayGoalKcal"));
 				
 				vData.add(mVO);
 			}
@@ -132,13 +133,12 @@ public class DAO {
 		return vData;
 	}
 
-	public FoodVO getFoodSearch(String foodName, String productName) {
+	public FoodVO getFoodSearch(String productName) {	//음식상세정보
 		fVO = new FoodVO();
 		try {
-			sql = "select * from food where foodName = ? and productName = ?";
+			sql = "select * from food where productName = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, foodName);
-			pstmt.setString(2, productName);
+			pstmt.setString(1, productName);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -163,7 +163,7 @@ public class DAO {
 		return fVO;
 	}
 
-	public int setFoodInput(FoodVO fVO) {
+	public int setFoodInput(FoodVO fVO) {	//새로운 음식등록
 		res = 0;
 		try {
 			sql = "insert into food values (default, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -189,7 +189,7 @@ public class DAO {
 		return res;
 	}
 
-	public Vector getFoodList() {
+	public Vector getFoodList() {	//음식목록(jtable)
 		Vector vData = new Vector<>();
 		try {
 			sql = "select * from food order by fIdx desc";
@@ -201,12 +201,10 @@ public class DAO {
 				Vector fVO = new Vector<>();
 				String foodName = rs.getString("foodName");
 				int fIdx =rs.getInt("fIdx"); 
-				System.out.println("fIdx : "+fIdx);
-				System.out.println("foodName : "+ foodName);
 				
 				fVO.add(fIdx);
-				fVO.add(foodName);
 				fVO.add(rs.getString("productName"));
+				fVO.add(foodName);
 				fVO.add(rs.getDouble("kcal"));
 				vData.add(fVO);
 				
@@ -220,7 +218,7 @@ public class DAO {
 		return vData;
 	}
 
-	public int setFoodUpdate(FoodVO fVO) {
+	public int setFoodUpdate(FoodVO fVO) {	//음식수정
 		res = 0;
 		try {
 			sql = "update food set foodName=?, productName=?, intake=?, kcal=?, carbohydrate=?, dietaryFiber=?, sugars=?, protein=?, fat=?, saturatedFat=?, natrium=? where fIdx = ?";
@@ -248,7 +246,7 @@ public class DAO {
 		return res;
 	}
 
-	public int setFoodDelete(String fIdx) {
+	public int setFoodDelete(String fIdx) {	//음식삭제
 		res = 0;
 		try {
 			sql = "delete from food where fIdx = ?";
@@ -263,5 +261,201 @@ public class DAO {
 		}
 		return res;
 	}
+
+	public MealVO getMealSearch(MealVO mVO2) {	//식사 개별조회
+		mVO = new MealVO();
+		try {
+			sql = "select * from meal where mealTime = ? and mealMenu = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mVO2.getMealTime());
+			pstmt.setString(2, mVO2.getMealMenu());
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				mVO.setmIdx(rs.getInt("mIdx"));
+				mVO.setMeal(rs.getString("meal"));
+				mVO.setMealTime(rs.getString("mealTime"));
+				mVO.setMealMenu(rs.getString("mealMenu"));
+				mVO.setaMealKcal(rs.getDouble("aMealKcal"));
+				mVO.setDayKcal(rs.getDouble("dayKcal"));
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return mVO;
+	}
+
+	public int setMealMenuInput(MealVO mVO) {
+		res = 0;
+		try {
+			sql = "insert into meal (mIdx, mealTime, mealMenu) values (default, ?, ?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mVO.getMealTime());
+			pstmt.setString(2, mVO.getMealMenu());
+			res = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
+
+	public int setMealInput(MealVO mVO) {
+		res = 0;
+		try {
+			sql = "update meal set meal = ?, mealTime = ?, mealMenu = ?, aMealKcal = ?, dayKcal = ? where mIdx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mVO.getMeal());
+			pstmt.setString(2, mVO.getMealTime());
+			pstmt.setString(3, mVO.getMealMenu());
+			pstmt.setDouble(4, mVO.getaMealKcal());
+			pstmt.setDouble(5, mVO.getDayKcal());
+			pstmt.setInt(6, mVO.getmIdx());
+			res = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
+
+	public int setmealInputDelete() {
+		res = 0;
+		try {
+			sql = "delete from meal where mIdx = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, mVO.getmIdx());
+			res = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
+
+	public int setCompUpdate(CompanionVO cVO) {
+		try {
+			sql = "update companion set pwd = ?, name = ?, age = ?, gender = ?, email = ?, tel = ? where id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, cVO.getPwd());
+			pstmt.setString(2, cVO.getName());
+			pstmt.setInt(3, cVO.getAge());
+			pstmt.setString(4, cVO.getGender());
+			pstmt.setString(5, cVO.getEmail());
+			pstmt.setString(6, cVO.getTel());
+			pstmt.setString(7, cVO.getId());
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
+
+	public int setCompDelete(String id) {
+		try {
+			sql = "delete from companion where id = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
+			res = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			pstmtClose();
+		}
+		return res;
+	}
+
+	public ArrayList<MealVO> getDaySearch(String mealTime) {
+		ArrayList<MealVO> vos = new ArrayList<MealVO>();
+		
+		try {
+			sql = "select * from meal where date(mealTime) = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mealTime);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				mVO = new MealVO();
+				mVO.setmIdx(rs.getInt("mIdx"));
+				mVO.setMeal(rs.getString("meal"));
+				mVO.setMealTime(rs.getString("mealTime"));
+				mVO.setMealMenu(rs.getString("mealMenu"));
+				mVO.setaMealKcal(rs.getDouble("aMealKcal"));
+				mVO.setDayKcal(rs.getDouble("dayKcal"));
+				vos.add(mVO);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vos;
+	}
+
+	public Vector getConditionSearch(String fieldName, String textCondi) {
+		Vector vData = new Vector<>();
+		try {
+			sql = "select * from meal where " + fieldName + " like ? order by midx";	//?는 무조건 값이 옴. 
+			pstmt = conn.prepareStatement(sql);
+			
+//			if(fieldName.equals("mealTime")) pstmt.setInt(1, Integer.parseInt(txtCond));
+			pstmt.setString(1, "%"+textCondi+"%");	//?에 ''포함된 거라 ''를 따로 적지 않아야 함
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Vector vo = new Vector<>();
+				vo.add(rs.getInt("mIdx"));
+				vo.add(rs.getString("meal"));
+				vo.add(rs.getString("mealTime"));
+				vo.add(rs.getString("mealMenu"));
+				vo.add(rs.getDouble("aMealKcal"));
+				vo.add(rs.getDouble("dayKcal"));
+				vData.add(vo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			rsClose();
+		}
+		return vData;
+	}
 	
+	public Vector getMealTimeAscList(String flag) {
+		Vector vData = new Vector<>();
+		try {
+			if(flag.equals("a")) sql = "select * from meal order by mealTime";
+			else sql = "select * from meal order by mealTime desc";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Vector mVO = new Vector<>();
+				mVO.add(rs.getInt("mIdx"));
+				mVO.add(rs.getString("meal"));
+				mVO.add(rs.getString("mealTime"));
+				mVO.add(rs.getString("mealMenu"));
+				mVO.add(rs.getDouble("aMealKcal"));
+				mVO.add(rs.getDouble("dayKcal"));
+				
+				vData.add(mVO);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vData;
+	}
 }

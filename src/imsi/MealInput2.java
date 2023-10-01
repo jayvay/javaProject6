@@ -1,4 +1,4 @@
-package meal;
+package imsi;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -21,12 +21,15 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
+
+import meal.DAO;
+import meal.FoodInput;
+import meal.FoodSearchDetail;
+import meal.FoodVO;
+import meal.MainMenu;
 
 public class MealInput2 extends JFrame {
 
@@ -177,7 +180,7 @@ public class MealInput2 extends JFrame {
 		btnFoodSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new FoodSearch();
+//				new FoodSearch(mVO);
 			}
 		});
 		

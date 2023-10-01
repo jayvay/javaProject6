@@ -3,33 +3,23 @@ package meal;
 public class MealVO {
 
 	private int mIdx;
-	private int cIdx;
-	private int fIdx;
 	private String meal;
 	private String mealTime;
 	private String mealMenu;
 	private double aMealKcal;
 	private double dayKcal;
-	private double dayGoalKcal;
-	private String mealPhoto;
+	
+	private String strYY;
+	private String strMM;
+	private String strDD;
+	private String strHH;
+	private String strmm;
 	
 	public int getmIdx() {
 		return mIdx;
 	}
 	public void setmIdx(int mIdx) {
 		this.mIdx = mIdx;
-	}
-	public int getcIdx() {
-		return cIdx;
-	}
-	public void setcIdx(int cIdx) {
-		this.cIdx = cIdx;
-	}
-	public int getfIdx() {
-		return fIdx;
-	}
-	public void setfIdx(int fIdx) {
-		this.fIdx = fIdx;
 	}
 	public String getMeal() {
 		return meal;
@@ -61,23 +51,42 @@ public class MealVO {
 	public void setDayKcal(double dayKcal) {
 		this.dayKcal = dayKcal;
 	}
-	public double getDayGoalKcal() {
-		return dayGoalKcal;
+	public String getStrYY() {
+		return strYY;
 	}
-	public void setDayGoalKcal(double dayGoalKcal) {
-		this.dayGoalKcal = dayGoalKcal;
+	public void setStrYY(String strYY) {
+		this.strYY = strYY;
 	}
-	public String getMealPhoto() {
-		return mealPhoto;
+	public String getStrMM() {
+		return strMM;
 	}
-	public void setMealPhoto(String mealPhoto) {
-		this.mealPhoto = mealPhoto;
+	public void setStrMM(String strMM) {
+		this.strMM = strMM;
+	}
+	public String getStrDD() {
+		return strDD;
+	}
+	public void setStrDD(String strDD) {
+		this.strDD = strDD;
+	}
+	public String getStrHH() {
+		return strHH;
+	}
+	public void setStrHH(String strHH) {
+		this.strHH = strHH;
+	}
+	public String getStrmm() {
+		return strmm;
+	}
+	public void setStrmm(String strmm) {
+		this.strmm = strmm;
 	}
 	
 	@Override
 	public String toString() {
-		return "MealVO [mIdx=" + mIdx + ", cIdx=" + cIdx + ", fIdx=" + fIdx + ", meal=" + meal + ", mealTime=" + mealTime
-				+ ", mealMenu=" + mealMenu + ", aMealKcal=" + aMealKcal + ", dayKcal=" + dayKcal + ", dayGoalKcal="
-				+ dayGoalKcal + ", mealPhoto=" + mealPhoto + "]";
+		return "MealVO [mIdx=" + mIdx + ", meal=" + meal + ", mealTime=" + mealTime + ", mealMenu=" + mealMenu
+				+ ", aMealKcal=" + aMealKcal + ", dayKcal=" + dayKcal + ", strYY=" + strYY + ", strMM=" + strMM
+				+ ", strDD=" + strDD + ", strHH=" + strHH + ", strmm=" + strmm + "]";
 	}
+	
 }

@@ -19,8 +19,14 @@ import javax.swing.JMenuBar;
 public class MainMenu extends JFrame {
 
 	private JPanel contentPane;
-
+	DAO dao = new DAO();
+	CompanionVO cVO = null;
+	
 	public MainMenu() {
+		this(null);
+	}
+	
+	public MainMenu(CompanionVO vo) {
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 600);
 		setLocationRelativeTo(null);
@@ -35,7 +41,7 @@ public class MainMenu extends JFrame {
 		imgMain =	imageSetSize(imgMain, 500, 300); 
 		
 		JPanel pn1 = new JPanel();
-		pn1.setBackground(new Color(206, 224, 251));
+		pn1.setBackground(new Color(249, 228, 176));
 		pn1.setBounds(62, 370, 449, 134);
 		contentPane.add(pn1);
 		pn1.setLayout(null);
@@ -43,17 +49,18 @@ public class MainMenu extends JFrame {
 		JButton btnToday = new JButton("오 늘 의 식 단");
 		btnToday.setBackground(new Color(87, 87, 255));
 		btnToday.setForeground(new Color(255, 255, 255));
-		btnToday.setFont(new Font("굴림", Font.PLAIN, 12));
+		btnToday.setFont(new Font("굴림", Font.BOLD, 13));
 		btnToday.setBounds(12, 10, 289, 51);
 		pn1.add(btnToday);
 		
-		JButton btnTodayUpdate = new JButton("회 원 정 보 수 정");
-		btnTodayUpdate.setForeground(new Color(87, 87, 255));
-		btnTodayUpdate.setFont(new Font("굴림", Font.PLAIN, 12));
-		btnTodayUpdate.setBounds(12, 71, 289, 51);
-		pn1.add(btnTodayUpdate);
+		JButton btnCompUpdate = new JButton("회 원 정 보 수 정");
+		btnCompUpdate.setForeground(new Color(87, 87, 255));
+		btnCompUpdate.setFont(new Font("굴림", Font.BOLD, 13));
+		btnCompUpdate.setBounds(12, 71, 289, 51);
+		pn1.add(btnCompUpdate);
 		
 		JButton btnAllDay = new JButton("나의 식단 일지");
+		btnAllDay.setFont(new Font("굴림", Font.BOLD, 13));
 		btnAllDay.setForeground(new Color(87, 87, 255));
 		btnAllDay.setBounds(313, 11, 124, 111);
 		pn1.add(btnAllDay);
@@ -62,6 +69,14 @@ public class MainMenu extends JFrame {
 		lblImg.setBounds(62, 25, 449, 366);
 		contentPane.add(lblImg);
 		lblImg.setIcon(imgMain);
+		
+		JLabel lblBackImg = new JLabel("New label");
+		lblBackImg.setBounds(0, 0, 584, 561);
+		contentPane.add(lblBackImg);
+		
+		ImageIcon imgBack = new ImageIcon(getClass().getResource("./images/cake.png"));
+		imgBack =	imageSetSize(imgBack, 600, 600);
+		lblBackImg.setIcon(imgBack);
 		
 		/*----------------------------------------------------------*/
 
@@ -79,9 +94,12 @@ public class MainMenu extends JFrame {
 			}
 		});
 
-		btnTodayUpdate.addActionListener(new ActionListener() {
+		btnCompUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				cVO =  dao.getCompSearch(vo.getId());
+				if(cVO.getId() != null) {
+					new CompanionInfo(cVO);
+				}
 			}
 		});
 	}
