@@ -1,21 +1,19 @@
 package meal;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import java.awt.Font;
-import javax.swing.SwingConstants;
-import javax.swing.JTextField;
-import javax.swing.JRadioButton;
-import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
-import java.awt.event.ActionEvent;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 public class CompanionInfo extends JFrame {
 
@@ -31,7 +29,6 @@ public class CompanionInfo extends JFrame {
 	MealVO mVO = new MealVO();
 	
 	int res = 0;
-	private JTextField textGoalKcal;
 
 	public CompanionInfo(CompanionVO cVO) {
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -184,20 +181,6 @@ public class CompanionInfo extends JFrame {
 		btnExit.setBounds(60, 316, 167, 62);
 		pn2.add(btnExit);
 		
-		JLabel lblGoalKcal = new JLabel("하루 목표 섭취 칼로리");
-		lblGoalKcal.setBounds(74, 190, 144, 37);
-		pn2.add(lblGoalKcal);
-		lblGoalKcal.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGoalKcal.setFont(new Font("굴림", Font.PLAIN, 14));
-		
-		textGoalKcal = new JTextField();
-		textGoalKcal.setBounds(51, 224, 187, 42);
-		pn2.add(textGoalKcal);
-		textGoalKcal.setText((String) null);
-		textGoalKcal.setHorizontalAlignment(SwingConstants.LEFT);
-		textGoalKcal.setFont(new Font("굴림", Font.PLAIN, 14));
-		textGoalKcal.setColumns(10);
-		
 		
 		
 		/*------------------------------------------------*/
@@ -301,7 +284,7 @@ public class CompanionInfo extends JFrame {
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new MainMenu(cVO);
+				new MainMenu();
 			}
 		});
 	}

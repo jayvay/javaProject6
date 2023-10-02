@@ -68,7 +68,6 @@ public class FoodSearch extends JFrame {
 		vData = dao.getFoodList();
 		dtm = new DefaultTableModel(vData, title);
 		tbl = new JTable(dtm);
-		tbl.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		scroll = new JScrollPane(tbl);
 		scroll.setBounds(42, 10, 452, 283);
 		scroll.setViewportView(tbl);

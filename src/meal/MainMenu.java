@@ -15,18 +15,16 @@ import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 
 public class MainMenu extends JFrame {
 
 	private JPanel contentPane;
 	DAO dao = new DAO();
 	CompanionVO cVO = null;
+
 	
 	public MainMenu() {
-		this(null);
-	}
-	
-	public MainMenu(CompanionVO vo) {
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 600);
 		setLocationRelativeTo(null);
@@ -96,9 +94,12 @@ public class MainMenu extends JFrame {
 
 		btnCompUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cVO =  dao.getCompSearch(vo.getId());
+				String ans = JOptionPane.showInputDialog("ID를 입력하세요");
+				cVO =  dao.getCompSearch(ans);
 				if(cVO.getId() != null) {
 					new CompanionInfo(cVO);
+				} else {
+					JOptionPane.showMessageDialog(null, "없는 회원입니다.");
 				}
 			}
 		});

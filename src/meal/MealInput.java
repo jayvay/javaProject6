@@ -44,6 +44,7 @@ public class MealInput extends JFrame {
 	DAO dao = new DAO();
 	FoodVO fVO = new FoodVO();
 	MealVO mVO = null;
+	
 	int res = 0;
 
 	
@@ -300,7 +301,7 @@ public class MealInput extends JFrame {
 
 		btnF5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				mVO = dao.getMealSearch(mVO2);
+				mVO = dao.getMealSearch(mVO2, 0);
 				
 				String temp = "";
 				String[] foodTemps = mVO.getMealMenu().split("/");
@@ -326,6 +327,7 @@ public class MealInput extends JFrame {
 				String meal = "";
 				String mealTime = cbYY.getSelectedItem() + "-" + cbMM.getSelectedItem() + "-" + cbDD.getSelectedItem()
 				+ " " + cbHH.getSelectedItem() + ":" + cbmm.getSelectedItem();
+				String mealDate = cbYY.getSelectedItem() + "-" + cbMM.getSelectedItem() + "-" + cbDD.getSelectedItem();
 				
 				if(!(rdbtnBkft.isSelected()||rdbtnLunch.isSelected()||rdbtnDinner.isSelected()||rdbtnSnack.isSelected())) {
 					JOptionPane.showMessageDialog(null, "식사 종류를 선택하세요");
@@ -351,38 +353,64 @@ public class MealInput extends JFrame {
 					System.out.println("한끼칼로리:" + aMealKcal);
 					textAMealKcal.setText(String.valueOf(aMealKcal));
 					mVO.setaMealKcal(aMealKcal);
-					res = dao.setMealInput(mVO);
-					if(res == 0) JOptionPane.showMessageDialog(null, "입력 오류 발생! 다시 시도하세요.");
 					
-					String mealDate = cbYY.getSelectedItem() + "-" + cbMM.getSelectedItem() + "-" + cbDD.getSelectedItem();
-					vos = dao.getDaySearch(mealDate);
-					double dayKcal = 0;
-					for(int i=0; i<vos.size(); i++) {
-						mVO = vos.get(i);
-						dayKcal += mVO.getaMealKcal();
+					
+					System.out.println("mVO 1: " + mVO);
+					System.out.println("mVO 1time: " + mVO.getMealTime());
+					System.out.println();
+					
+					res = dao.setMealInput(mVO, 0);
+					System.out.println("mVO-한끼칼로리까지:" + mVO);
+					if(res == 0) JOptionPane.showMessageDialog(null, "입력 오류 발생!1 다시 시도하세요.");
+					res = 0;
+					
+//					vos = dao.getDaySearch(mealDate);
+//					double dayKcal = 0;
+//					for(int i=0; i<vos.size(); i++) {
+//						mVO = vos.get(i);
+//						dayKcal += mVO.getaMealKcal();
+//					}
+//					textDayKcal.setText(String.valueOf(dayKcal));
+					MealVO mVO2 = dao.getDayKcal(mealDate);
+					mVO.setDayKcal(mVO2.getDayKcal());	
+					System.out.println("mVO2-데이칼로리 포함:" + mVO2);
+					System.out.println("mVO-데이칼로리 포함:" + mVO);
+					textDayKcal.setText(String.valueOf(mVO.getDayKcal()));
+					
+					MealVO mVO3 = dao.getMealSearch(mVO, 1);
+					System.out.println("mVO3:" + mVO3);
+					if(mVO3.getMeal() != null) {
+						res = dao.getMealOverlapdelete(mVO);
+						if(res == 0) JOptionPane.showMessageDialog(null, "중복 오류 발생! 다시 시도하세요.");
+						res = 0;
+						res = dao.setMealInput(mVO, 1);
+						if(res == 0) JOptionPane.showMessageDialog(null, "입력 오류 발생!2 다시 시도하세요.");
 					}
-					textDayKcal.setText(String.valueOf(dayKcal));
-					mVO.setDayKcal(dayKcal);	
-					
-					res = dao.setMealInput(mVO);
-					if(res == 0) JOptionPane.showMessageDialog(null, "입력 오류 발생! 다시 시도하세요.");
+					else {
+						res = dao.setMealInput(mVO, 0);
+						if(res == 0) JOptionPane.showMessageDialog(null, "입력 오류 발생!3 다시 시도하세요.");
+					}
 				}
 			}
 		});
 		
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showConfirmDialog(null, "다시 입력", "입력 중인 식단을 삭제하시겠습니까?", JOptionPane.YES_NO_OPTION);
-				mVO = dao.getMealSearch(mVO2);
-				res = dao.setmealInputDelete();
-				System.out.println(mVO.getmIdx());
-				if(res == 0) JOptionPane.showMessageDialog(null, "오류 발생! 다시 시도하세요.");
-				mVO = defaultMealTime();
-				cbYY.setSelectedItem(mVO.getStrYY());
-				cbMM.setSelectedItem(mVO.getStrMM());
-				cbDD.setSelectedItem(mVO.getStrDD());
-				cbHH.setSelectedItem(mVO.getStrHH());
-				cbmm.setSelectedItem(mVO.getStrmm());
+				int ans = JOptionPane.showConfirmDialog(null, "다시 입력", "입력 중인 식단을 삭제하시겠습니까?", JOptionPane.YES_NO_OPTION);
+				if(ans == JOptionPane.YES_OPTION) {
+					mVO = dao.getMealSearch(mVO2, 0);
+					res = dao.setMealDelete(mVO, "temp");
+					System.out.println(mVO.getmIdx());
+					if(res == 0) JOptionPane.showMessageDialog(null, "오류 발생! 다시 시도하세요.");
+					mVO = defaultMealTime();
+					cbYY.setSelectedItem(mVO.getStrYY());
+					cbMM.setSelectedItem(mVO.getStrMM());
+					cbDD.setSelectedItem(mVO.getStrDD());
+					cbHH.setSelectedItem(mVO.getStrHH());
+					cbmm.setSelectedItem(mVO.getStrmm());
+					textAreaSelFoods.setText("");
+					rdbtnBkft.setSelected(true);
+				}
 			}
 		});
 		

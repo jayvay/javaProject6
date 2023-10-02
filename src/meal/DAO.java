@@ -106,25 +106,65 @@ public class DAO {
 		return res;
 	}
 
-	public Vector getMealList() {	//식사전체조회(jtable)
+	@SuppressWarnings("unchecked")
+	public Vector getMealList(String flag) {	//식사전체조회(jtable)
 		Vector vData = new Vector<>();
 		try {
-			sql = "select * from meal order by mIdx desc";
+			if(flag.equals("a")) sql = "select * from meal order by mealTime";
+			else sql = "select * from meal order by mealTime desc";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
+			int cnt = 0;	
+			double aMealKcal = 0;
+			double dayKcal = 0;	
+			String strBeforeRow = "";
+			String strNowRow ="";
+
 			while(rs.next()) {
 				Vector mVO = new Vector<>();
-				mVO.add(rs.getInt("mIdx"));
 				mVO.add(rs.getString("meal"));
-				mVO.add(rs.getString("mealTime"));
+				mVO.add(rs.getString("mealTime").substring(10,16));	//시간
 				mVO.add(rs.getString("mealMenu"));
 				mVO.add(rs.getDouble("aMealKcal"));
-				mVO.add(rs.getDouble("dayKcal"));
+				mVO.add("");
+				mVO.add(rs.getInt("mIdx"));
 				
-				vData.add(mVO);
-			}
-			
+				strNowRow = rs.getString("mealTime").substring(0,10);	//날짜
+				aMealKcal = rs.getDouble("aMealKcal");
+				
+				if(strBeforeRow.equals(strNowRow)) {
+					dayKcal += aMealKcal;	//한끼를 누적해서 하루칼로리
+					cnt++;
+				} else {	
+					Vector mVO2 = new Vector<>();	
+					mVO2.add("");	
+					mVO2.add(strNowRow);
+					mVO2.add("");
+					mVO2.add("");
+					mVO2.add(dayKcal);
+					
+					vData.add(mVO2);	//"YYYY-MM-DD"행을 테이블에 추가
+					
+					dayKcal = aMealKcal;	//한끼만 먹으면 한끼가 하루칼로리
+					cnt = 1;
+				}
+				
+				if(vData.size() > 0) {	//테이블에 1개라도 행이 있으면
+					Vector vdata2 = (Vector)vData.get(vData.size() - cnt);	//테이블 (테이블크기-몇끼)행
+						vdata2.set(4,dayKcal);																//에 4열에 하루칼로리를 넣는다.
+//					for(int i = vData.size() - nCnt ;i < vData.size()  ; i++) {					
+//						Vector vdata2 = (Vector)vData.get(i);
+//						if(vdata2.size() == 6)
+//							vdata2.set(5,dSum);
+//					}
+				}
+
+				strBeforeRow = strNowRow;	//다음 행으로 넘어가면 지금 행이 전 행이 된다.
+//				mVO.add(rs.getDouble("dayKcal"));
+				
+				vData.add(mVO);	//한 행을 테이블에 넣는다.
+			}	
 		} catch (SQLException e) {
 			System.out.println("SQL 오류 : " + e.getMessage());
 		} finally {
@@ -262,31 +302,6 @@ public class DAO {
 		return res;
 	}
 
-	public MealVO getMealSearch(MealVO mVO2) {	//식사 개별조회
-		mVO = new MealVO();
-		try {
-			sql = "select * from meal where mealTime = ? and mealMenu = ?";
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, mVO2.getMealTime());
-			pstmt.setString(2, mVO2.getMealMenu());
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				mVO.setmIdx(rs.getInt("mIdx"));
-				mVO.setMeal(rs.getString("meal"));
-				mVO.setMealTime(rs.getString("mealTime"));
-				mVO.setMealMenu(rs.getString("mealMenu"));
-				mVO.setaMealKcal(rs.getDouble("aMealKcal"));
-				mVO.setDayKcal(rs.getDouble("dayKcal"));
-			}
-		} catch (SQLException e) {
-			System.out.println("SQL 오류 : " + e.getMessage());
-		} finally {
-			rsClose();
-		}
-		return mVO;
-	}
-
 	public int setMealMenuInput(MealVO mVO) {
 		res = 0;
 		try {
@@ -298,39 +313,43 @@ public class DAO {
 			
 		} catch (SQLException e) {
 			System.out.println("SQL 오류 : " + e.getMessage());
+			e.printStackTrace();
 		} finally {
 			pstmtClose();
 		}
 		return res;
 	}
 
-	public int setMealInput(MealVO mVO) {
+	public int setMealInput(MealVO mVO, int i) {
 		res = 0;
 		try {
-			sql = "update meal set meal = ?, mealTime = ?, mealMenu = ?, aMealKcal = ?, dayKcal = ? where mIdx = ?";
+			if(i == 0) sql = "update meal set meal = ?, mealTime = ?, mealMenu = ?, aMealKcal = ? where mIdx = ?";
+			else if(i == 1) sql = "insert into meal (meal,mealTime,mealMenu,aMealKcal,midx) values (?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mVO.getMeal());
 			pstmt.setString(2, mVO.getMealTime());
 			pstmt.setString(3, mVO.getMealMenu());
 			pstmt.setDouble(4, mVO.getaMealKcal());
-			pstmt.setDouble(5, mVO.getDayKcal());
-			pstmt.setInt(6, mVO.getmIdx());
+//			pstmt.setDouble(5, mVO.getDayKcal());
+			pstmt.setInt(5, mVO.getmIdx());
 			res = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
 			System.out.println("SQL 오류 : " + e.getMessage());
+			e.printStackTrace();
 		} finally {
 			pstmtClose();
 		}
 		return res;
 	}
 
-	public int setmealInputDelete() {
+	public int setMealDelete(MealVO mVO, String mealTemp) {
 		res = 0;
 		try {
 			sql = "delete from meal where mIdx = ?";
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, mVO.getmIdx());
+			if(mealTemp.equals("temp")) pstmt.setInt(1, mVO.getmIdx());
+			else pstmt.setInt(1, Integer.parseInt(mealTemp));
 			res = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -391,7 +410,7 @@ public class DAO {
 				mVO.setMealTime(rs.getString("mealTime"));
 				mVO.setMealMenu(rs.getString("mealMenu"));
 				mVO.setaMealKcal(rs.getDouble("aMealKcal"));
-				mVO.setDayKcal(rs.getDouble("dayKcal"));
+//				mVO.setDayKcal(rs.getDouble("dayKcal"));
 				vos.add(mVO);
 			}
 			
@@ -420,7 +439,7 @@ public class DAO {
 				vo.add(rs.getString("mealTime"));
 				vo.add(rs.getString("mealMenu"));
 				vo.add(rs.getDouble("aMealKcal"));
-				vo.add(rs.getDouble("dayKcal"));
+//				vo.add(rs.getDouble("dayKcal"));
 				vData.add(vo);
 			}
 		} catch (SQLException e) {
@@ -431,24 +450,109 @@ public class DAO {
 		return vData;
 	}
 	
-	public Vector getMealTimeAscList(String flag) {
+//	public Vector getMealTimeAscList(String flag) {
+//		Vector vData = new Vector<>();
+//		try {
+//			if(flag.equals("a")) sql = "select * from meal order by mealTime";
+//			else sql = "select * from meal order by mealTime desc";
+//			pstmt = conn.prepareStatement(sql);
+//			rs = pstmt.executeQuery();
+//			
+//			while(rs.next()) {
+//				Vector mVO = new Vector<>();
+//				mVO.add(rs.getInt("mIdx"));
+//				mVO.add(rs.getString("meal"));
+//				mVO.add(rs.getString("mealTime"));
+//				mVO.add(rs.getString("mealMenu"));
+//				mVO.add(rs.getDouble("aMealKcal"));
+////				mVO.add(rs.getDouble("dayKcal"));
+//				
+//				vData.add(mVO);
+//			}
+//			
+//		} catch (SQLException e) {
+//			System.out.println("SQL 오류 : " + e.getMessage());
+//		} finally {
+//			rsClose();
+//		}
+//		return vData;
+//	}
+
+	public int getMealOverlapdelete(MealVO mVO) {
+		try {
+			sql = "delete from meal where meal = ? and date(mealTime) = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mVO.getMeal());
+			pstmt.setString(2, mVO.getMealTime().substring(0,10));
+			res = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			rsClose();
+		}
+		return res;
+	}
+
+
+	public MealVO getMealSearch(MealVO mVO2 ,int i) {	//식사 개별조회
+		mVO = new MealVO();
+		try {
+			if(i == 0) {
+				sql = "select * from meal where mealTime = ? and mealMenu = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mVO2.getMealTime());
+				pstmt.setString(2, mVO2.getMealMenu());
+			}
+			else if(i == 1) {
+				sql = "select * from meal where meal = ? and date(mealTime) = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, mVO2.getMeal());
+				pstmt.setString(2, mVO2.getMealTime().substring(0,10));
+			}
+			else if(i == 2) {
+				sql = "select * from meal where midx = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, mVO2.getmIdx());
+			}
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				mVO.setmIdx(rs.getInt("mIdx"));
+				mVO.setMeal(rs.getString("meal"));
+				mVO.setMealTime(rs.getString("mealTime"));
+				mVO.setMealMenu(rs.getString("mealMenu"));
+				mVO.setaMealKcal(rs.getDouble("aMealKcal"));
+//				mVO.setDayKcal(rs.getDouble("dayKcal"));
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return mVO;
+	}
+
+	public Vector getMyFoodList() {	//음식목록(jtable)
 		Vector vData = new Vector<>();
 		try {
-			if(flag.equals("a")) sql = "select * from meal order by mealTime";
-			else sql = "select * from meal order by mealTime desc";
+			sql = "select * from food order by fIdx desc";
+			//sql = "select m.*,f.foodName,f.productName from meal m, food f where m.fidx=f.fIdx order by mIdx desc";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			
 			while(rs.next()) {
-				Vector mVO = new Vector<>();
-				mVO.add(rs.getInt("mIdx"));
-				mVO.add(rs.getString("meal"));
-				mVO.add(rs.getString("mealTime"));
-				mVO.add(rs.getString("mealMenu"));
-				mVO.add(rs.getDouble("aMealKcal"));
-				mVO.add(rs.getDouble("dayKcal"));
+				Vector fVO = new Vector<>();
+				String foodName = rs.getString("foodName");
+				int fIdx =rs.getInt("fIdx"); 
 				
-				vData.add(mVO);
+				fVO.add(fIdx);
+				fVO.add(rs.getString("productName"));
+				fVO.add(foodName);
+				fVO.add(rs.getDouble("kcal"));
+				vData.add(fVO);
+				
 			}
 			
 		} catch (SQLException e) {
@@ -458,4 +562,30 @@ public class DAO {
 		}
 		return vData;
 	}
+
+	
+	public MealVO getDayKcal(String mealTime) {
+		
+		try {
+			sql = "select sum(aMealKcal) as dayKcal from meal where date(mealTime) = ?";
+			System.out.println("sql : " + sql);
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, mealTime);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				mVO = new MealVO();
+				mVO.setDayKcal(rs.getDouble("dayKcal"));
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+			e.printStackTrace();
+		} finally {
+			rsClose();
+		}
+		return mVO;
+	}
+
+
 }

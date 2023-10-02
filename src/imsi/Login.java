@@ -104,27 +104,5 @@ public class Login extends JFrame {
 			}
 		});
 		
-		btnLogin.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-					String id = textId.getText();
-					cVO = dao.getCompSearch(id);
-					if(cVO.getId() != null) {
-						if(cVO.getPwd().equals(textPwd.getText())) {
-							JOptionPane.showMessageDialog(null, cVO.getName() + "님 환영합니다~!");
-							dispose();
-							new MainMenu();
-						}
-						else if(!cVO.getPwd().equals(textPwd.getText())) {
-							JOptionPane.showMessageDialog(null, "비밀번호가 틀렸습니다. 비밀번호를 확인하세요.");
-						}
-					}
-					else {
-						JOptionPane.showMessageDialog(null, "아이디가 존재하지 않습니다. 아이디를 확인하세요.");
-					}
-				}
-			}
-		});
 	}
 }

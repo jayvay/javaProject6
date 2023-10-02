@@ -1,6 +1,7 @@
 package meal;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
@@ -31,17 +32,22 @@ public class MealList extends JFrame {
 	private JTable tbl;
 	private JScrollPane scroll;
 	private JComboBox cbCondition;
+	private JButton btnDmealTimeetail;
+	private JTextField textCondition;
+	private JButton btnList;
+	private JButton btnAsc;
+	private JButton btnDesc;
+	private JButton btnMealDelete;
 	
 	Vector title, vData;
 	DefaultTableModel dtm;
 	
 	DAO dao = new DAO();
-	private JButton btnDetail;
-	private JTextField textCondition;
-	private JButton btnList;
-	private JButton btnAsc;
-	private JButton btnDesc;
-
+	MealVO mVO = null;
+	
+	int res = 0;
+	private JButton btnF5;
+	
 	public MealList() {
 		setTitle("나의 식단 일지");
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,14 +68,16 @@ public class MealList extends JFrame {
 		
 		
 		title = new Vector<>();
-		title.add("번호");
 		title.add("식사종류");
-		title.add("식사일자 및 시간");
+		title.add("시간");
 		title.add("식사메뉴");
 		title.add("한 끼 칼로리");
 		title.add("하루 칼로리");
+//		title.add("번호");
 		
-		vData = dao.getMealList();
+		vData = dao.getMealList("d");
+		
+		
 		dtm = new DefaultTableModel(vData,title);
 		tbl = new JTable(dtm);
 		scroll = new JScrollPane(tbl);
@@ -78,20 +86,20 @@ public class MealList extends JFrame {
 		pn1.add(scroll);
 		
 		tableCellAlign(tbl);
-		tbl.getColumnModel().getColumn(0).setMaxWidth(50);
+		tbl.getColumnModel().getColumn(0).setMaxWidth(80);
 		tbl.getColumnModel().getColumn(1).setMaxWidth(90);
-		tbl.getColumnModel().getColumn(4).setMaxWidth(90);
-		tbl.getColumnModel().getColumn(5).setMaxWidth(90);
+		tbl.getColumnModel().getColumn(3).setMaxWidth(80);
+		tbl.getColumnModel().getColumn(4).setMaxWidth(80);
 		
 		JButton btnExit = new JButton("나가기");
 		btnExit.setFont(new Font("굴림", Font.PLAIN, 16));
 		btnExit.setBounds(697, 479, 159, 44);
 		pn1.add(btnExit);
 		
-		btnDetail = new JButton("조회");
-		btnDetail.setFont(new Font("굴림", Font.PLAIN, 16));
-		btnDetail.setBounds(696, 425, 160, 44);
-		pn1.add(btnDetail);
+		btnDmealTimeetail = new JButton("조회");
+		btnDmealTimeetail.setFont(new Font("굴림", Font.PLAIN, 16));
+		btnDmealTimeetail.setBounds(525, 479, 160, 44);
+		pn1.add(btnDmealTimeetail);
 		
 		JButton btnCondition = new JButton("검색");
 		btnCondition.setBounds(578, 28, 97, 34);
@@ -121,20 +129,43 @@ public class MealList extends JFrame {
 		btnDesc.setBounds(37, 479, 160, 44);
 		pn1.add(btnDesc);
 		
+		btnMealDelete = new JButton("삭제");
+		btnMealDelete.setFont(new Font("굴림", Font.PLAIN, 16));
+		btnMealDelete.setBounds(697, 425, 160, 44);
+		pn1.add(btnMealDelete);
 		
-		tbl.getColumnModel().getColumn(0).setMaxWidth(50);
+		btnF5 = new JButton("새로고침");
+		btnF5.setFont(new Font("굴림", Font.PLAIN, 16));
+		btnF5.setBounds(525, 425, 160, 44);
+		pn1.add(btnF5);
+		
 		
 		/*---------------------------------------------*/
+		
+		btnMealDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mVO = new MealVO();
+				int row = tbl.getSelectedRow();
+				Vector vdata = (Vector)vData.get(row);
+//				String mealTemp = (String)vdata.get(0);
+				String mealMIdxTemp = tbl.getValueAt(row, 5).toString();
+				System.out.println("mealMIdxTemp:" + mealMIdxTemp);
 
+				res = dao.setMealDelete(null, mealMIdxTemp);
+				if(res == 0) JOptionPane.showMessageDialog(null, "삭제 실패! 다시 시도하세요.");
+				
+			}
+		});
+		
+		btnF5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				getmealList();
+			}
+		});
+		
 		btnList.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				vData = dao.getMealList();
-				dtm.setDataVector(vData, title); 
-				tableCellAlign(tbl);
-				tbl.getColumnModel().getColumn(0).setMaxWidth(50);
-				tbl.getColumnModel().getColumn(1).setMaxWidth(90);
-				tbl.getColumnModel().getColumn(4).setMaxWidth(90);
-				tbl.getColumnModel().getColumn(5).setMaxWidth(90);
+				getmealList();
 			}
 		});
 
@@ -144,37 +175,37 @@ public class MealList extends JFrame {
 			}
 		});
 		
-		btnDetail.addActionListener(new ActionListener() {
+		btnDmealTimeetail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new MealListDetail();	//새로 만들건지 MealInput창을 사용할건지
+//				new MealListDetail(mealTime);	
 			}
 		});
 		
 
 		btnAsc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				vData = dao.getMealTimeAscList("a");
+				vData = dao.getMealList("a");
 				dtm.setDataVector(vData, title); 
 				
 				tableCellAlign(tbl);
-				tbl.getColumnModel().getColumn(0).setMaxWidth(50);
+				tbl.getColumnModel().getColumn(0).setMaxWidth(80);
 				tbl.getColumnModel().getColumn(1).setMaxWidth(90);
-				tbl.getColumnModel().getColumn(4).setMaxWidth(90);
-				tbl.getColumnModel().getColumn(5).setMaxWidth(90);
+				tbl.getColumnModel().getColumn(3).setMaxWidth(80);
+				tbl.getColumnModel().getColumn(4).setMaxWidth(80);
 			}
 		});
 		
 
 		btnDesc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				vData = dao.getMealTimeAscList("d");
+				vData = dao.getMealList("d");
 				dtm.setDataVector(vData, title); 
 				
 				tableCellAlign(tbl);
-				tbl.getColumnModel().getColumn(0).setMaxWidth(50);
+				tbl.getColumnModel().getColumn(0).setMaxWidth(80);
 				tbl.getColumnModel().getColumn(1).setMaxWidth(90);
-				tbl.getColumnModel().getColumn(4).setMaxWidth(90);
-				tbl.getColumnModel().getColumn(5).setMaxWidth(90);
+				tbl.getColumnModel().getColumn(3).setMaxWidth(80);
+				tbl.getColumnModel().getColumn(4).setMaxWidth(80);
 			}
 		});
 		
@@ -187,6 +218,17 @@ public class MealList extends JFrame {
 		});
 	}
 	
+	
+	protected void getmealList() {
+		vData = dao.getMealList("d");
+		dtm.setDataVector(vData, title); 
+		tableCellAlign(tbl);
+		tbl.getColumnModel().getColumn(0).setMaxWidth(80);
+		tbl.getColumnModel().getColumn(1).setMaxWidth(90);
+		tbl.getColumnModel().getColumn(3).setMaxWidth(80);
+		tbl.getColumnModel().getColumn(4).setMaxWidth(80);
+	}
+
 	private void tableCellAlign(JTable tbl) {
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -221,9 +263,11 @@ public class MealList extends JFrame {
 		//JTable 안의 셀의 내용을 가운데 정렬
 		tableCellAlign(tbl);
 		//0번열(idx(고유번호)) 셀의 크기를 50픽셀로 조정하기
-		tbl.getColumnModel().getColumn(0).setMaxWidth(50);
+		tbl.getColumnModel().getColumn(0).setMaxWidth(80);
 		tbl.getColumnModel().getColumn(1).setMaxWidth(90);
-		tbl.getColumnModel().getColumn(4).setMaxWidth(90);
-		tbl.getColumnModel().getColumn(5).setMaxWidth(90);
+		tbl.getColumnModel().getColumn(3).setMaxWidth(80);
+		tbl.getColumnModel().getColumn(4).setMaxWidth(80);
 	}
+	
+	
 }

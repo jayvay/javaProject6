@@ -7,8 +7,8 @@ public class MealVO {
 	private String mealTime;
 	private String mealMenu;
 	private double aMealKcal;
-	private double dayKcal;
 	
+	private double dayKcal;
 	private String strYY;
 	private String strMM;
 	private String strDD;

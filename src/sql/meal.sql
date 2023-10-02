@@ -20,11 +20,12 @@ create table meal(
 	meal varchar(20),				-- 식사 종류(아침,점심,저녁,간식)
 	mealTime datetime default now(),	-- 식사 일자 및 시간
 	mealMenu varchar(100),						-- 식사 메뉴
-	aMealKcal double default 0.0,			-- 한 끼 섭취 칼로리
-	dayKcal double default 0.0			-- 하루 섭취 칼로리
+	aMealKcal double default 0.0			-- 한 끼 섭취 칼로리
 );
 
 select * from meal order by midx desc;
+delete from meal where midx = 3;
+drop table meal;
 
 create table food(
 	fIdx int not null auto_increment primary key,	-- 음식고유번호
@@ -44,7 +45,7 @@ create table food(
 select * from food;
 desc meal;
 desc companion;
-drop table meal;
+
 
 select m.*,f.foodName,f.productName from meal m, food f where m.fidx=f.fIdx order by mIdx desc
 select m.*,f.foodName as foodName,f.productName as productName from meal m, food f where m.cidx=f.cIdx order by mIdx desc
