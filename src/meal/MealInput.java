@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
@@ -54,7 +55,7 @@ public class MealInput extends JFrame {
 	
 	public MealInput(MealVO mVO2) {
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("식단 등록하기");
+		setTitle("Bobmukja_오늘의식단");
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -65,8 +66,8 @@ public class MealInput extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel pn2 = new JPanel();
-		pn2.setBackground(new Color(250, 230, 194));
-		pn2.setBounds(0, 329, 784, 232);
+		pn2.setBackground(new Color(254, 239, 216));
+		pn2.setBounds(0, 328, 784, 233);
 		contentPane.add(pn2);
 		pn2.setLayout(null);
 	
@@ -101,7 +102,7 @@ public class MealInput extends JFrame {
 		JComboBox cbYY = new JComboBox(yy);
 		cbYY.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 12));
 		cbYY.setBackground(new Color(250, 230, 194));
-		cbYY.setBounds(155, 80, 70, 28);
+		cbYY.setBounds(155, 69, 70, 28);
 		mVO = defaultMealTime();
 		cbYY.setSelectedItem(mVO.getStrYY());
 		pn2.add(cbYY);
@@ -113,48 +114,50 @@ public class MealInput extends JFrame {
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		JRadioButton rdbtnBkft= new JRadioButton("아침");
-		rdbtnBkft.setBackground(new Color(250, 230, 194));
+		rdbtnBkft.setBackground(new Color(254, 239, 216));
 		rdbtnBkft.setBounds(166, 28, 61, 23);
 		buttonGroup.add(rdbtnBkft);
 		pn2.add(rdbtnBkft);
 		rdbtnBkft.setFont(new Font("굴림", Font.BOLD, 14));
 		
 		JRadioButton rdbtnLunch = new JRadioButton("점심");
-		rdbtnLunch.setBackground(new Color(250, 230, 194));
+		rdbtnLunch.setBackground(new Color(254, 239, 216));
 		rdbtnLunch.setBounds(235, 28, 61, 23);
 		buttonGroup.add(rdbtnLunch);
 		pn2.add(rdbtnLunch);
 		rdbtnLunch.setFont(new Font("굴림", Font.BOLD, 14));
 		
 		JRadioButton rdbtnDinner = new JRadioButton("저녁");
-		rdbtnDinner.setBackground(new Color(250, 230, 194));
+		rdbtnDinner.setBackground(new Color(254, 239, 216));
 		rdbtnDinner.setBounds(312, 28, 61, 23);
 		buttonGroup.add(rdbtnDinner);
 		pn2.add(rdbtnDinner);
 		rdbtnDinner.setFont(new Font("굴림", Font.BOLD, 14));
 		
 		JRadioButton rdbtnSnack = new JRadioButton("간식");
-		rdbtnSnack.setBackground(new Color(250, 230, 194));
+		rdbtnSnack.setBackground(new Color(254, 239, 216));
 		rdbtnSnack.setBounds(382, 28, 61, 23);
 		buttonGroup.add(rdbtnSnack);
 		pn2.add(rdbtnSnack);
 		rdbtnSnack.setFont(new Font("굴림", Font.BOLD, 14));
 		
 		JLabel lblMealTime = new JLabel("식사시간");
-		lblMealTime.setBounds(28, 77, 125, 39);
+		lblMealTime.setBounds(28, 66, 125, 39);
 		pn2.add(lblMealTime);
 		lblMealTime.setHorizontalAlignment(SwingConstants.CENTER);
 		lblMealTime.setFont(new Font("굴림", Font.BOLD, 14));
 		
-		JButton btnSave = new JButton("저 장");
-		btnSave.setFont(new Font("굴림", Font.BOLD, 13));
-		btnSave.setBounds(651, 20, 103, 51);
+		JButton btnSave = new JButton("SAVE");
+		btnSave.setForeground(new Color(88, 72, 48));
+		btnSave.setBackground(new Color(244, 200, 134));
+		btnSave.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnSave.setBounds(644, 20, 110, 51);
 		pn2.add(btnSave);
 		
 		JComboBox cbMM = new JComboBox(MM);
 		cbMM.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 12));
 		cbMM.setBackground(new Color(250, 230, 194));
-		cbMM.setBounds(260, 80, 61, 28);
+		cbMM.setBounds(260, 69, 61, 28);
 		mVO = defaultMealTime();
 		cbMM.setSelectedItem(mVO.getStrMM());
 		pn2.add(cbMM);
@@ -162,7 +165,7 @@ public class MealInput extends JFrame {
 		JComboBox cbDD = new JComboBox(dd);
 		cbDD.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 12));
 		cbDD.setBackground(new Color(250, 230, 194));
-		cbDD.setBounds(351, 80, 61, 28);
+		cbDD.setBounds(351, 69, 61, 28);
 		mVO = defaultMealTime();
 		cbDD.setSelectedItem(mVO.getStrDD());
 		pn2.add(cbDD);
@@ -170,25 +173,25 @@ public class MealInput extends JFrame {
 		JLabel lblYY = new JLabel("년");
 		lblYY.setFont(new Font("굴림", Font.BOLD, 14));
 		lblYY.setHorizontalAlignment(SwingConstants.CENTER);
-		lblYY.setBounds(217, 77, 38, 35);
+		lblYY.setBounds(217, 66, 38, 35);
 		pn2.add(lblYY);
 		
 		JLabel lblMM = new JLabel("월");
 		lblMM.setFont(new Font("굴림", Font.BOLD, 14));
 		lblMM.setHorizontalAlignment(SwingConstants.CENTER);
-		lblMM.setBounds(313, 77, 38, 35);
+		lblMM.setBounds(313, 66, 38, 35);
 		pn2.add(lblMM);
 		
 		JLabel lblDD = new JLabel("일");
 		lblDD.setFont(new Font("굴림", Font.BOLD, 14));
 		lblDD.setHorizontalAlignment(SwingConstants.CENTER);
-		lblDD.setBounds(406, 77, 38, 35);
+		lblDD.setBounds(406, 66, 38, 35);
 		pn2.add(lblDD);
 		
 		JComboBox cbHH = new JComboBox(hh);
 		cbHH.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 12));
 		cbHH.setBackground(new Color(250, 230, 194));
-		cbHH.setBounds(444, 80, 50, 28);
+		cbHH.setBounds(444, 69, 50, 28);
 		mVO = defaultMealTime();
 		cbHH.setSelectedItem(mVO.getStrHH());
 		pn2.add(cbHH);
@@ -196,7 +199,7 @@ public class MealInput extends JFrame {
 		JComboBox cbmm = new JComboBox(mm);
 		cbmm.setFont(new Font("Arial", Font.BOLD | Font.ITALIC, 12));
 		cbmm.setBackground(new Color(250, 230, 194));
-		cbmm.setBounds(529, 80, 50, 28);
+		cbmm.setBounds(529, 69, 50, 28);
 		mVO = defaultMealTime();
 		cbmm.setSelectedItem(mVO.getStrmm());
 		pn2.add(cbmm);
@@ -204,47 +207,50 @@ public class MealInput extends JFrame {
 		JLabel lblHH = new JLabel("시");
 		lblHH.setFont(new Font("굴림", Font.BOLD, 14));
 		lblHH.setHorizontalAlignment(SwingConstants.CENTER);
-		lblHH.setBounds(490, 77, 38, 35);
+		lblHH.setBounds(490, 66, 38, 35);
 		pn2.add(lblHH);
 		
 		JLabel lblmm = new JLabel("분");
 		lblmm.setFont(new Font("굴림", Font.BOLD, 14));
 		lblmm.setHorizontalAlignment(SwingConstants.CENTER);
-		lblmm.setBounds(574, 77, 38, 35);
+		lblmm.setBounds(574, 66, 38, 35);
 		pn2.add(lblmm);
 		
 		JPanel pn1 = new JPanel();
 		pn1.setBackground(new Color(255, 255, 255));
-		pn1.setBounds(0, 83, 784, 249);
+		pn1.setBounds(0, 80, 784, 249);
 		contentPane.add(pn1);
 		pn1.setLayout(null);
 		
 		JButton btnFoodSearch = new JButton("음식 찾기");
+		btnFoodSearch.setForeground(new Color(255, 255, 255));
 		btnFoodSearch.setFont(new Font("굴림", Font.BOLD, 13));
-		btnFoodSearch.setBackground(new Color(250, 230, 194));
-		btnFoodSearch.setBounds(552, 122, 180, 65);
+		btnFoodSearch.setBackground(new Color(243, 174, 107));
+		btnFoodSearch.setBounds(546, 137, 180, 65);
 		pn1.add(btnFoodSearch);
 		
 		JButton btnFoodInput = new JButton("새 음식 등록");
+		btnFoodInput.setForeground(new Color(255, 255, 255));
 		btnFoodInput.setFont(new Font("굴림", Font.BOLD, 13));
-		btnFoodInput.setBackground(new Color(250, 230, 194));
-		btnFoodInput.setBounds(552, 34, 180, 65);
+		btnFoodInput.setBackground(new Color(243, 174, 107));
+		btnFoodInput.setBounds(546, 49, 180, 65);
 		pn1.add(btnFoodInput);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(149, 51, 350, 119);
+		scrollPane.setBounds(149, 68, 350, 119);
 		pn1.add(scrollPane);
 		
 		JTextArea textAreaSelFoods = new JTextArea();
+		textAreaSelFoods.setEditable(false);
 		textAreaSelFoods.setFont(new Font("Monospaced", Font.PLAIN, 15));
 		scrollPane.setViewportView(textAreaSelFoods);
 		textAreaSelFoods.setText(mVO.getMealMenu());
 		
 		JButton btnF5 = new JButton("새로고침");
 		btnF5.setFont(new Font("굴림", Font.BOLD, 13));
-		btnF5.setForeground(new Color(255, 255, 255));
-		btnF5.setBackground(new Color(149, 0, 74));
-		btnF5.setBounds(48, 51, 89, 119);
+		btnF5.setForeground(new Color(88, 72, 48));
+		btnF5.setBackground(new Color(244, 200, 134));
+		btnF5.setBounds(48, 68, 89, 119);
 		pn1.add(btnF5);
 		
 		JLabel lblImg = new JLabel("New label");
@@ -254,47 +260,58 @@ public class MealInput extends JFrame {
 		imgBack =	imageSetSize(imgBack, 800, 700);
 		lblImg.setIcon(imgBack);
 		
-		JButton btnDelete = new JButton("다시입력");
-		btnDelete.setFont(new Font("굴림", Font.BOLD, 13));
-		btnDelete.setBounds(651, 80, 103, 51);
+		JButton btnDelete = new JButton("RESET");
+		btnDelete.setForeground(new Color(88, 72, 48));
+		btnDelete.setBackground(new Color(244, 200, 134));
+		btnDelete.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnDelete.setBounds(644, 80, 110, 51);
 		pn2.add(btnDelete);
 		
-		JButton btnExit = new JButton("나가기");
-		btnExit.setBounds(651, 141, 103, 54);
+		JButton btnExit = new JButton("EXIT");
+		btnExit.setForeground(new Color(88, 72, 48));
+		btnExit.setBackground(new Color(244, 200, 134));
+		btnExit.setBounds(644, 141, 110, 54);
 		pn2.add(btnExit);
-		btnExit.setFont(new Font("굴림", Font.BOLD, 12));
+		btnExit.setFont(new Font("Arial Black", Font.BOLD, 14));
 		
 		JLabel lblAMealKcal = new JLabel("한 끼 총 섭취 칼로리");
-		lblAMealKcal.setBounds(97, 123, 207, 39);
+		lblAMealKcal.setBounds(94, 129, 207, 39);
 		pn2.add(lblAMealKcal);
 		lblAMealKcal.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAMealKcal.setFont(new Font("굴림", Font.BOLD, 14));
 		
 		textAMealKcal = new JTextField();
 		textAMealKcal.setFont(new Font("Arial", Font.BOLD, 13));
-		textAMealKcal.setBackground(new Color(250, 230, 194));
-		textAMealKcal.setBounds(127, 159, 146, 30);
+		textAMealKcal.setBackground(new Color(254, 239, 216));
+		textAMealKcal.setBounds(124, 165, 146, 30);
 		pn2.add(textAMealKcal);
 		textAMealKcal.setColumns(10);
 		
 		JLabel lblDayKcal = new JLabel("하루 총 섭취 칼로리");
-		lblDayKcal.setBounds(324, 123, 207, 39);
+		lblDayKcal.setBounds(321, 129, 207, 39);
 		pn2.add(lblDayKcal);
 		lblDayKcal.setHorizontalAlignment(SwingConstants.CENTER);
 		lblDayKcal.setFont(new Font("굴림", Font.BOLD, 14));
 		
 		textDayKcal = new JTextField();
 		textDayKcal.setFont(new Font("Arial", Font.BOLD, 13));
-		textDayKcal.setBackground(new Color(250, 230, 194));
-		textDayKcal.setBounds(351, 159, 146, 30);
+		textDayKcal.setBackground(new Color(254, 239, 216));
+		textDayKcal.setBounds(348, 165, 146, 30);
 		pn2.add(textDayKcal);
 		textDayKcal.setColumns(10);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(242, 202, 134));
-		panel.setBounds(0, 0, 784, 84);
+		panel.setBackground(new Color(115, 94, 63));
+		panel.setBounds(0, 0, 784, 89);
 		contentPane.add(panel);
 		panel.setLayout(null);
+		
+		JLabel lblNewLabel_1 = new JLabel("Diet record");
+		lblNewLabel_1.setForeground(new Color(255, 242, 213));
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setFont(new Font("Arial Black", Font.BOLD, 21));
+		lblNewLabel_1.setBounds(0, 10, 784, 69);
+		panel.add(lblNewLabel_1);
 		
 		
 		/*----------------------------------------------------------*/
@@ -302,6 +319,7 @@ public class MealInput extends JFrame {
 		btnF5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mVO = dao.getMealSearch(mVO2, 0);
+				System.out.println("mVO2로 다 왔니" + mVO2);
 				
 				String temp = "";
 				String[] foodTemps = mVO.getMealMenu().split("/");
@@ -323,14 +341,15 @@ public class MealInput extends JFrame {
 		
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ArrayList<MealVO> vos = null;
+//				ArrayList<MealVO> vos = null;
 				String meal = "";
 				String mealTime = cbYY.getSelectedItem() + "-" + cbMM.getSelectedItem() + "-" + cbDD.getSelectedItem()
 				+ " " + cbHH.getSelectedItem() + ":" + cbmm.getSelectedItem();
 				String mealDate = cbYY.getSelectedItem() + "-" + cbMM.getSelectedItem() + "-" + cbDD.getSelectedItem();
+				double aMealKcal = mVO2.getaMealKcal();
 				
 				if(!(rdbtnBkft.isSelected()||rdbtnLunch.isSelected()||rdbtnDinner.isSelected()||rdbtnSnack.isSelected())) {
-					JOptionPane.showMessageDialog(null, "식사 종류를 선택하세요");
+					JOptionPane.showMessageDialog(null, "식사 종류를 선택하세요.");
 					rdbtnBkft.requestFocus();
 				}
 				else {
@@ -341,22 +360,21 @@ public class MealInput extends JFrame {
 					
 					mVO.setMeal(meal);
 					mVO.setMealTime(mealTime);
-					
-					double aMealKcal = 0.0;
-					String[] foods = textAreaSelFoods.getText().split("\n");
-					for(int i=0; i<foods.length; i++) {
-						fVO = dao.getFoodSearch(foods[i]);
-						if(fVO.getProductName() != null) {
-							aMealKcal += fVO.getKcal();
-						}
-					}
-					System.out.println("한끼칼로리:" + aMealKcal);
-					textAMealKcal.setText(String.valueOf(aMealKcal));
 					mVO.setaMealKcal(aMealKcal);
-					
+//					double aMealKcal = 0.0;
+//					String[] foods = textAreaSelFoods.getText().split("\n");
+//					for(int i=0; i<foods.length; i++) {
+//						fVO = dao.getFoodSearch(foods[i]);
+//						if(fVO.getProductName() != null) {
+//							aMealKcal += fVO.getKcal()*intakeMul;
+//						}
+//					}
+//					System.out.println("한끼칼로리:" + aMealKcal);
+//					mVO.setaMealKcal(aMealKcal);
 					
 					System.out.println("mVO 1: " + mVO);
-					System.out.println("mVO 1time: " + mVO.getMealTime());
+					System.out.println("mVO 1 time: " + mVO.getMealTime());
+					System.out.println("mVO 1 aMealKcal: " + mVO.getaMealKcal());
 					System.out.println();
 					
 					res = dao.setMealInput(mVO, 0);
@@ -375,6 +393,8 @@ public class MealInput extends JFrame {
 					mVO.setDayKcal(mVO2.getDayKcal());	
 					System.out.println("mVO2-데이칼로리 포함:" + mVO2);
 					System.out.println("mVO-데이칼로리 포함:" + mVO);
+					
+					textAMealKcal.setText(String.valueOf(aMealKcal));
 					textDayKcal.setText(String.valueOf(mVO.getDayKcal()));
 					
 					MealVO mVO3 = dao.getMealSearch(mVO, 1);

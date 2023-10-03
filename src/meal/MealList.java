@@ -1,30 +1,31 @@
 package meal;
 
-import java.awt.EventQueue;
-import java.util.ArrayList;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
-import javax.swing.JLabel;
+import java.awt.Color;
 
 public class MealList extends JFrame {
 
@@ -32,7 +33,7 @@ public class MealList extends JFrame {
 	private JTable tbl;
 	private JScrollPane scroll;
 	private JComboBox cbCondition;
-	private JButton btnDmealTimeetail;
+	private JButton btnFoodDetail;
 	private JTextField textCondition;
 	private JButton btnList;
 	private JButton btnAsc;
@@ -47,11 +48,14 @@ public class MealList extends JFrame {
 	
 	int res = 0;
 	private JButton btnF5;
+	private JButton btnSelect;
+	private JButton btnNewButton;
+	private JComboBox cbFood;
 	
 	public MealList() {
-		setTitle("나의 식단 일지");
+		setTitle("Bobmukja_나의식단일지");
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(900, 600);
+		setSize(900, 610);
 		setLocationRelativeTo(null);
 		setVisible(true);
 		
@@ -62,94 +66,152 @@ public class MealList extends JFrame {
 		contentPane.setLayout(null);
 		
 		pn1 = new JPanel();
-		pn1.setBounds(0, 0, 884, 561);
+		pn1.setForeground(new Color(237, 227, 211));
+		pn1.setBackground(new Color(242, 236, 225));
+		pn1.setBounds(0, 0, 884, 571);
 		contentPane.add(pn1);
 		pn1.setLayout(null);
 		
-		
 		title = new Vector<>();
-		title.add("식사종류");
 		title.add("시간");
+		title.add("식사종류");
+		title.add("칼로리");
 		title.add("식사메뉴");
-		title.add("한 끼 칼로리");
-		title.add("하루 칼로리");
 //		title.add("번호");
 		
-		vData = dao.getMealList("d");
-		
+		vData = dao.getMealList("a");
 		
 		dtm = new DefaultTableModel(vData,title);
 		tbl = new JTable(dtm);
+		tbl.setFont(new Font("굴림", Font.PLAIN, 11));
+		tbl.setBackground(new Color(249, 245, 240));
 		scroll = new JScrollPane(tbl);
-		scroll.setBounds(22, 83, 834, 320);
+		scroll.setBounds(22, 116, 834, 320);
 		scroll.setViewportView(tbl);
 		pn1.add(scroll);
 		
 		tableCellAlign(tbl);
-		tbl.getColumnModel().getColumn(0).setMaxWidth(80);
-		tbl.getColumnModel().getColumn(1).setMaxWidth(90);
-		tbl.getColumnModel().getColumn(3).setMaxWidth(80);
-		tbl.getColumnModel().getColumn(4).setMaxWidth(80);
+		tbl.getColumnModel().getColumn(0).setMaxWidth(100);
+		tbl.getColumnModel().getColumn(1).setMaxWidth(100);
+		tbl.getColumnModel().getColumn(2).setMaxWidth(100);
 		
 		JButton btnExit = new JButton("나가기");
-		btnExit.setFont(new Font("굴림", Font.PLAIN, 16));
-		btnExit.setBounds(697, 479, 159, 44);
+		btnExit.setForeground(new Color(249, 245, 240));
+		btnExit.setBackground(new Color(115, 94, 63));
+		btnExit.setFont(new Font("굴림", Font.BOLD, 14));
+		btnExit.setBounds(750, 446, 94, 82);
 		pn1.add(btnExit);
 		
-		btnDmealTimeetail = new JButton("조회");
-		btnDmealTimeetail.setFont(new Font("굴림", Font.PLAIN, 16));
-		btnDmealTimeetail.setBounds(525, 479, 160, 44);
-		pn1.add(btnDmealTimeetail);
-		
-		JButton btnCondition = new JButton("검색");
-		btnCondition.setBounds(578, 28, 97, 34);
+		JButton btnCondition = new JButton("검 색");
+		btnCondition.setForeground(new Color(249, 245, 240));
+		btnCondition.setFont(new Font("굴림", Font.BOLD, 14));
+		btnCondition.setBackground(new Color(74, 125, 82));
+		btnCondition.setBounds(766, 63, 78, 43);
 		pn1.add(btnCondition);
 		
 		cbCondition = new JComboBox();
+		cbCondition.setFont(new Font("굴림", Font.BOLD, 13));
+		cbCondition.setBackground(new Color(242, 236, 225));
 		cbCondition.setModel(new DefaultComboBoxModel(new String[] {"날짜", "식사종류", "식사메뉴"}));
-		cbCondition.setBounds(258, 28, 94, 34);
+		cbCondition.setBounds(448, 63, 94, 43);
 		pn1.add(cbCondition);
 		
 		textCondition = new JTextField();
-		textCondition.setBounds(366, 29, 200, 33);
+		textCondition.setBackground(new Color(249, 245, 240));
+		textCondition.setBounds(554, 64, 200, 42);
 		pn1.add(textCondition);
 		textCondition.setColumns(10);
 		
-		btnList = new JButton("전체목록");
-		btnList.setBounds(149, 28, 97, 34);
+		btnList = new JButton("전체조회");
+		btnList.setForeground(new Color(249, 245, 240));
+		btnList.setFont(new Font("굴림", Font.BOLD, 13));
+		btnList.setBackground(new Color(74, 125, 82));
+		btnList.setBounds(340, 63, 96, 43);
 		pn1.add(btnList);
 		
-		btnAsc = new JButton("날짜 오름차순");
-		btnAsc.setFont(new Font("굴림", Font.PLAIN, 12));
-		btnAsc.setBounds(37, 425, 160, 44);
+		btnAsc = new JButton("Asc");
+		btnAsc.setForeground(new Color(249, 245, 240));
+		btnAsc.setBackground(new Color(178, 159, 135));
+		btnAsc.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnAsc.setBounds(22, 63, 97, 43);
 		pn1.add(btnAsc);
 		
-		btnDesc = new JButton("날짜 내림차순");
-		btnDesc.setFont(new Font("굴림", Font.PLAIN, 12));
-		btnDesc.setBounds(37, 479, 160, 44);
+		btnDesc = new JButton("Desc");
+		btnDesc.setForeground(new Color(249, 245, 240));
+		btnDesc.setBackground(new Color(178, 159, 135));
+		btnDesc.setFont(new Font("Verdana", Font.BOLD, 14));
+		btnDesc.setBounds(126, 63, 97, 43);
 		pn1.add(btnDesc);
 		
-		btnMealDelete = new JButton("삭제");
-		btnMealDelete.setFont(new Font("굴림", Font.PLAIN, 16));
-		btnMealDelete.setBounds(697, 425, 160, 44);
+		btnMealDelete = new JButton("삭 제");
+		btnMealDelete.setForeground(new Color(249, 245, 240));
+		btnMealDelete.setBackground(new Color(178, 159, 135));
+		btnMealDelete.setFont(new Font("굴림", Font.BOLD, 14));
+		btnMealDelete.setBounds(538, 446, 94, 82);
 		pn1.add(btnMealDelete);
 		
 		btnF5 = new JButton("새로고침");
-		btnF5.setFont(new Font("굴림", Font.PLAIN, 16));
-		btnF5.setBounds(525, 425, 160, 44);
+		btnF5.setForeground(new Color(249, 245, 240));
+		btnF5.setBackground(new Color(178, 159, 135));
+		btnF5.setFont(new Font("굴림", Font.BOLD, 14));
+		btnF5.setBounds(644, 446, 94, 82);
 		pn1.add(btnF5);
 		
 		
+		btnSelect = new JButton("상세정보");
+		btnSelect.setForeground(new Color(249, 245, 240));
+		btnSelect.setFont(new Font("굴림", Font.BOLD, 14));
+		btnSelect.setBackground(new Color(178, 159, 135));
+		btnSelect.setBounds(22, 446, 94, 82);
+		pn1.add(btnSelect);
+		
+	
 		/*---------------------------------------------*/
+		btnSelect.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = tbl.getSelectedRow();
+				Vector vdata = (Vector) vData.get(row);
+				String [] listSelFood = vdata.get(3).toString().split("/");
+				
+				JScrollPane scrollList = new JScrollPane();
+				scrollList.setBounds(126, 452, 356, 44);
+				pn1.add(scrollList);
+				
+				cbFood = new JComboBox();
+				cbFood.setBackground(new Color(242, 236, 225));
+				scrollList.setViewportView(cbFood);
+				for(int i=0; i<listSelFood.length; i++) {
+					cbFood.addItem(listSelFood[i]);
+				}
+				
+				btnFoodDetail = new JButton("음식 상세정보");
+				btnFoodDetail.setForeground(new Color(249, 245, 240));
+				btnFoodDetail.setBackground(new Color(178, 159, 135));
+				scrollList.setRowHeaderView(btnFoodDetail);
+				btnFoodDetail.setFont(new Font("굴림", Font.BOLD, 13));
+				
+				btnFoodDetail.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						String food = cbFood.getSelectedItem().toString();
+						FoodVO fVO = dao.getFoodSearch(food);
+						new FoodSearchDetail(fVO);
+						cbFood.removeAllItems();
+					}
+				});
+			}
+		});
+		
 		
 		btnMealDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				mVO = new MealVO();
+				vData = dao.getMealList("a");
 				int row = tbl.getSelectedRow();
 				Vector vdata = (Vector)vData.get(row);
-//				String mealTemp = (String)vdata.get(0);
-				String mealMIdxTemp = tbl.getValueAt(row, 5).toString();
-				System.out.println("mealMIdxTemp:" + mealMIdxTemp);
+				String mealMIdxTemp = vdata.get(4).toString();
+				System.out.println("vdata나야나:"+vdata);
+				System.out.println("vdata.get(4)나야나:"+vdata.get(4));  
+				System.out.println("mealMIdxTemp나야나:" + mealMIdxTemp);
 
 				res = dao.setMealDelete(null, mealMIdxTemp);
 				if(res == 0) JOptionPane.showMessageDialog(null, "삭제 실패! 다시 시도하세요.");
@@ -175,12 +237,6 @@ public class MealList extends JFrame {
 			}
 		});
 		
-		btnDmealTimeetail.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				new MealListDetail(mealTime);	
-			}
-		});
-		
 
 		btnAsc.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -188,10 +244,9 @@ public class MealList extends JFrame {
 				dtm.setDataVector(vData, title); 
 				
 				tableCellAlign(tbl);
-				tbl.getColumnModel().getColumn(0).setMaxWidth(80);
-				tbl.getColumnModel().getColumn(1).setMaxWidth(90);
-				tbl.getColumnModel().getColumn(3).setMaxWidth(80);
-				tbl.getColumnModel().getColumn(4).setMaxWidth(80);
+				tbl.getColumnModel().getColumn(0).setMaxWidth(100);
+				tbl.getColumnModel().getColumn(1).setMaxWidth(100);
+				tbl.getColumnModel().getColumn(2).setMaxWidth(100);
 			}
 		});
 		
@@ -202,10 +257,9 @@ public class MealList extends JFrame {
 				dtm.setDataVector(vData, title); 
 				
 				tableCellAlign(tbl);
-				tbl.getColumnModel().getColumn(0).setMaxWidth(80);
-				tbl.getColumnModel().getColumn(1).setMaxWidth(90);
-				tbl.getColumnModel().getColumn(3).setMaxWidth(80);
-				tbl.getColumnModel().getColumn(4).setMaxWidth(80);
+				tbl.getColumnModel().getColumn(0).setMaxWidth(100);
+				tbl.getColumnModel().getColumn(1).setMaxWidth(100);
+				tbl.getColumnModel().getColumn(2).setMaxWidth(100);
 			}
 		});
 		
@@ -220,13 +274,12 @@ public class MealList extends JFrame {
 	
 	
 	protected void getmealList() {
-		vData = dao.getMealList("d");
+		vData = dao.getMealList("a");
 		dtm.setDataVector(vData, title); 
 		tableCellAlign(tbl);
-		tbl.getColumnModel().getColumn(0).setMaxWidth(80);
-		tbl.getColumnModel().getColumn(1).setMaxWidth(90);
-		tbl.getColumnModel().getColumn(3).setMaxWidth(80);
-		tbl.getColumnModel().getColumn(4).setMaxWidth(80);
+		tbl.getColumnModel().getColumn(0).setMaxWidth(100);
+		tbl.getColumnModel().getColumn(1).setMaxWidth(100);
+		tbl.getColumnModel().getColumn(2).setMaxWidth(100);
 	}
 
 	private void tableCellAlign(JTable tbl) {
@@ -262,12 +315,9 @@ public class MealList extends JFrame {
 		dtm.setDataVector(vData, title); 
 		//JTable 안의 셀의 내용을 가운데 정렬
 		tableCellAlign(tbl);
-		//0번열(idx(고유번호)) 셀의 크기를 50픽셀로 조정하기
-		tbl.getColumnModel().getColumn(0).setMaxWidth(80);
-		tbl.getColumnModel().getColumn(1).setMaxWidth(90);
-		tbl.getColumnModel().getColumn(3).setMaxWidth(80);
-		tbl.getColumnModel().getColumn(4).setMaxWidth(80);
+		tbl.getColumnModel().getColumn(0).setMaxWidth(100);
+		tbl.getColumnModel().getColumn(1).setMaxWidth(100);
+		tbl.getColumnModel().getColumn(2).setMaxWidth(100);
 	}
-	
 	
 }

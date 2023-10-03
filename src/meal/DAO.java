@@ -123,11 +123,10 @@ public class DAO {
 
 			while(rs.next()) {
 				Vector mVO = new Vector<>();
-				mVO.add(rs.getString("meal"));
 				mVO.add(rs.getString("mealTime").substring(10,16));	//시간
-				mVO.add(rs.getString("mealMenu"));
+				mVO.add(rs.getString("meal"));
 				mVO.add(rs.getDouble("aMealKcal"));
-				mVO.add("");
+				mVO.add(rs.getString("mealMenu"));
 				mVO.add(rs.getInt("mIdx"));
 				
 				strNowRow = rs.getString("mealTime").substring(0,10);	//날짜
@@ -138,11 +137,10 @@ public class DAO {
 					cnt++;
 				} else {	
 					Vector mVO2 = new Vector<>();	
-					mVO2.add("");	
 					mVO2.add(strNowRow);
+					mVO2.add("");	
 					mVO2.add("");
 					mVO2.add("");
-					mVO2.add(dayKcal);
 					
 					vData.add(mVO2);	//"YYYY-MM-DD"행을 테이블에 추가
 					
@@ -152,16 +150,10 @@ public class DAO {
 				
 				if(vData.size() > 0) {	//테이블에 1개라도 행이 있으면
 					Vector vdata2 = (Vector)vData.get(vData.size() - cnt);	//테이블 (테이블크기-몇끼)행
-						vdata2.set(4,dayKcal);																//에 4열에 하루칼로리를 넣는다.
-//					for(int i = vData.size() - nCnt ;i < vData.size()  ; i++) {					
-//						Vector vdata2 = (Vector)vData.get(i);
-//						if(vdata2.size() == 6)
-//							vdata2.set(5,dSum);
-//					}
+					vdata2.set(2,dayKcal);																//에 4열에 하루칼로리를 넣는다.
 				}
-
+				
 				strBeforeRow = strNowRow;	//다음 행으로 넘어가면 지금 행이 전 행이 된다.
-//				mVO.add(rs.getDouble("dayKcal"));
 				
 				vData.add(mVO);	//한 행을 테이블에 넣는다.
 			}	
@@ -305,10 +297,11 @@ public class DAO {
 	public int setMealMenuInput(MealVO mVO) {
 		res = 0;
 		try {
-			sql = "insert into meal (mIdx, mealTime, mealMenu) values (default, ?, ?)";
+			sql = "insert into meal (mIdx, mealTime, mealMenu, aMealKcal) values (default, ?, ?, ?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mVO.getMealTime());
 			pstmt.setString(2, mVO.getMealMenu());
+			pstmt.setDouble(3, mVO.getaMealKcal());
 			res = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -585,6 +578,11 @@ public class DAO {
 			rsClose();
 		}
 		return mVO;
+	}
+
+	public MealVO getMealVSearch(Vector vdata) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

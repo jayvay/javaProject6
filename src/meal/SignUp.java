@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import java.awt.Color;
+import javax.swing.UIManager;
 
 public class SignUp extends JFrame {
 
@@ -36,7 +37,7 @@ public class SignUp extends JFrame {
 	private JLabel lblWelcome;
 	
 	public SignUp() {
-		setTitle("회원가입");
+		setTitle("Bobmukja_회원가입");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(600, 700);
 		setLocationRelativeTo(null);
@@ -48,54 +49,55 @@ public class SignUp extends JFrame {
 		contentPane.setLayout(null);
 		
 		pn1 = new JPanel();
-		pn1.setBackground(new Color(250, 233, 192));
-		pn1.setBounds(0, 0, 584, 547);
+		pn1.setBackground(new Color(237, 227, 211));
+		pn1.setBounds(0, 0, 584, 551);
 		contentPane.add(pn1);
 		pn1.setLayout(null);
 		
 		lblId = new JLabel("아이디 ▶");
-		lblId.setHorizontalAlignment(SwingConstants.CENTER);
+		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblId.setFont(new Font("굴림", Font.BOLD, 14));
-		lblId.setBounds(68, 79, 144, 37);
+		lblId.setBounds(38, 79, 144, 37);
 		pn1.add(lblId);
 		
 		lblPwd = new JLabel("비밀번호 ▶");
-		lblPwd.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPwd.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblPwd.setFont(new Font("굴림", Font.BOLD, 14));
-		lblPwd.setBounds(68, 143, 144, 37);
+		lblPwd.setBounds(38, 143, 144, 37);
 		pn1.add(lblPwd);
 		
 		lblName = new JLabel("이름 ▶");
-		lblName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblName.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblName.setFont(new Font("굴림", Font.BOLD, 14));
-		lblName.setBounds(68, 204, 144, 37);
+		lblName.setBounds(38, 206, 144, 37);
 		pn1.add(lblName);
 		
 		lblAge = new JLabel("나이 ▶");
-		lblAge.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAge.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblAge.setFont(new Font("굴림", Font.BOLD, 14));
-		lblAge.setBounds(68, 276, 144, 37);
+		lblAge.setBounds(38, 276, 144, 37);
 		pn1.add(lblAge);
 		
 		lblGender = new JLabel("성별 ▶");
-		lblGender.setHorizontalAlignment(SwingConstants.CENTER);
+		lblGender.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblGender.setFont(new Font("굴림", Font.BOLD, 14));
-		lblGender.setBounds(68, 341, 144, 37);
+		lblGender.setBounds(38, 341, 144, 37);
 		pn1.add(lblGender);
 		
 		lblEmail = new JLabel("이메일 ▶");
-		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEmail.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblEmail.setFont(new Font("굴림", Font.BOLD, 14));
-		lblEmail.setBounds(68, 404, 144, 37);
+		lblEmail.setBounds(38, 406, 144, 37);
 		pn1.add(lblEmail);
 		
 		lblTel = new JLabel("전화번호 ▶");
-		lblTel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTel.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTel.setFont(new Font("굴림", Font.BOLD, 14));
-		lblTel.setBounds(68, 472, 144, 37);
+		lblTel.setBounds(38, 472, 144, 37);
 		pn1.add(lblTel);
 		
 		textId = new JTextField();
+		textId.setBackground(new Color(251, 247, 242));
 		textId.setFont(new Font("굴림", Font.PLAIN, 14));
 		textId.setHorizontalAlignment(SwingConstants.LEFT);
 		textId.setBounds(237, 79, 177, 42);
@@ -103,6 +105,7 @@ public class SignUp extends JFrame {
 		textId.setColumns(10);
 		
 		textPwd = new JTextField();
+		textPwd.setBackground(new Color(251, 247, 242));
 		textPwd.setHorizontalAlignment(SwingConstants.LEFT);
 		textPwd.setFont(new Font("굴림", Font.PLAIN, 14));
 		textPwd.setColumns(10);
@@ -110,6 +113,7 @@ public class SignUp extends JFrame {
 		pn1.add(textPwd);
 		
 		textName = new JTextField();
+		textName.setBackground(new Color(251, 247, 242));
 		textName.setHorizontalAlignment(SwingConstants.LEFT);
 		textName.setFont(new Font("굴림", Font.PLAIN, 14));
 		textName.setColumns(10);
@@ -117,6 +121,7 @@ public class SignUp extends JFrame {
 		pn1.add(textName);
 		
 		textEmail = new JTextField();
+		textEmail.setBackground(new Color(251, 247, 242));
 		textEmail.setHorizontalAlignment(SwingConstants.LEFT);
 		textEmail.setFont(new Font("굴림", Font.PLAIN, 14));
 		textEmail.setColumns(10);
@@ -124,6 +129,7 @@ public class SignUp extends JFrame {
 		pn1.add(textEmail);
 		
 		textTel = new JTextField();
+		textTel.setBackground(new Color(251, 247, 242));
 		textTel.setHorizontalAlignment(SwingConstants.LEFT);
 		textTel.setFont(new Font("굴림", Font.PLAIN, 14));
 		textTel.setColumns(10);
@@ -131,14 +137,14 @@ public class SignUp extends JFrame {
 		pn1.add(textTel);
 		
 		rdMale = new JRadioButton("남자");
-		rdMale.setBackground(new Color(250, 233, 192));
+		rdMale.setBackground(new Color(237, 227, 211));
 		rdMale.setFont(new Font("굴림", Font.BOLD, 14));
 		rdMale.setBounds(236, 348, 67, 23);
 		buttonGroup.add(rdMale);
 		pn1.add(rdMale);
 		
 		rdFemale = new JRadioButton("여자");
-		rdFemale.setBackground(new Color(250, 233, 192));
+		rdFemale.setBackground(new Color(237, 227, 211));
 		rdFemale.setSelected(true);
 		rdFemale.setFont(new Font("굴림", Font.BOLD, 14));
 		rdFemale.setBounds(327, 348, 67, 23);
@@ -152,6 +158,7 @@ public class SignUp extends JFrame {
 		pn1.add(lblAgeMan);
 		
 		textAge = new JTextField();
+		textAge.setBackground(new Color(251, 247, 242));
 		textAge.setHorizontalAlignment(SwingConstants.LEFT);
 		textAge.setFont(new Font("굴림", Font.PLAIN, 14));
 		textAge.setColumns(10);
@@ -170,34 +177,37 @@ public class SignUp extends JFrame {
 		pn1.add(lblTelEx);
 		
 		lblWelcome = new JLabel("WELCOME");
-		lblWelcome.setForeground(new Color(64, 0, 0));
-		lblWelcome.setFont(new Font("Arial", Font.BOLD, 21));
+		lblWelcome.setForeground(new Color(128, 64, 64));
+		lblWelcome.setFont(new Font("Verdana", Font.BOLD, 21));
 		lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWelcome.setBounds(0, 20, 584, 37);
 		pn1.add(lblWelcome);
 		
 		pn2 = new JPanel();
-		pn2.setBackground(new Color(176, 88, 0));
-		pn2.setBounds(0, 548, 584, 113);
+		pn2.setBackground(new Color(98, 134, 87));
+		pn2.setBounds(0, 550, 584, 111);
 		contentPane.add(pn2);
 		pn2.setLayout(null);
 		
-		btnSignUp = new JButton("회원가입");
-		btnSignUp.setBackground(new Color(231, 176, 116));
-		btnSignUp.setFont(new Font("굴림", Font.BOLD, 14));
-		btnSignUp.setBounds(30, 30, 169, 50);
+		btnSignUp = new JButton("SIGNUP");
+		btnSignUp.setForeground(Color.WHITE);
+		btnSignUp.setBackground(new Color(98, 134, 87));
+		btnSignUp.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnSignUp.setBounds(30, 30, 160, 50);
 		pn2.add(btnSignUp);
 		
-		btnExit = new JButton("나가기");
-		btnExit.setBackground(new Color(231, 176, 116));
-		btnExit.setFont(new Font("굴림", Font.BOLD, 14));
-		btnExit.setBounds(392, 30, 169, 50);
+		btnExit = new JButton("EXIT");
+		btnExit.setForeground(Color.WHITE);
+		btnExit.setBackground(new Color(98, 134, 87));
+		btnExit.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnExit.setBounds(392, 30, 160, 50);
 		pn2.add(btnExit);
 		
-		btnReset = new JButton("다시입력");
-		btnReset.setBackground(new Color(231, 176, 116));
-		btnReset.setFont(new Font("굴림", Font.BOLD, 14));
-		btnReset.setBounds(211, 30, 169, 50);
+		btnReset = new JButton("RESET");
+		btnReset.setForeground(Color.WHITE);
+		btnReset.setBackground(new Color(98, 134, 87));
+		btnReset.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnReset.setBounds(211, 30, 160, 50);
 		pn2.add(btnReset);
 		
 		/*---------------------------------------------*/

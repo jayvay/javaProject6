@@ -14,6 +14,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
 
 public class CompanionInfo extends JFrame {
 
@@ -32,7 +33,7 @@ public class CompanionInfo extends JFrame {
 
 	public CompanionInfo(CompanionVO cVO) {
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("회원정보수정");
+		setTitle("Bobmukja_회원정보수정");
 		setSize(800, 600);
 		setLocationRelativeTo(null);
 		setVisible(true);
@@ -43,141 +44,166 @@ public class CompanionInfo extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel pn1 = new JPanel();
+		pn1.setBackground(new Color(237, 227, 211));
 		pn1.setBounds(0, 0, 497, 561);
 		contentPane.add(pn1);
 		pn1.setLayout(null);
 		
-		JLabel lblId = new JLabel("아이디");
-		lblId.setHorizontalAlignment(SwingConstants.CENTER);
-		lblId.setFont(new Font("굴림", Font.PLAIN, 14));
-		lblId.setBounds(44, 52, 144, 37);
+		JLabel lblId = new JLabel("아이디 ▶");
+		lblId.setBackground(new Color(237, 227, 211));
+		lblId.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblId.setFont(new Font("굴림", Font.BOLD, 14));
+		lblId.setBounds(28, 52, 144, 37);
 		pn1.add(lblId);
 		
-		JLabel lblPwd = new JLabel("비밀번호");
-		lblPwd.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPwd.setFont(new Font("굴림", Font.PLAIN, 14));
-		lblPwd.setBounds(44, 122, 144, 37);
+		JLabel lblPwd = new JLabel("비밀번호 ▶");
+		lblPwd.setBackground(new Color(237, 227, 211));
+		lblPwd.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblPwd.setFont(new Font("굴림", Font.BOLD, 14));
+		lblPwd.setBounds(28, 122, 144, 37);
 		pn1.add(lblPwd);
 		
-		JLabel lblName = new JLabel("이름");
-		lblName.setHorizontalAlignment(SwingConstants.CENTER);
-		lblName.setFont(new Font("굴림", Font.PLAIN, 14));
-		lblName.setBounds(44, 192, 144, 37);
+		JLabel lblName = new JLabel("이름 ▶");
+		lblName.setBackground(new Color(237, 227, 211));
+		lblName.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblName.setFont(new Font("굴림", Font.BOLD, 14));
+		lblName.setBounds(28, 192, 144, 37);
 		pn1.add(lblName);
 		
-		JLabel lblAge = new JLabel("나이");
-		lblAge.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAge.setFont(new Font("굴림", Font.PLAIN, 14));
-		lblAge.setBounds(44, 262, 144, 37);
+		JLabel lblAge = new JLabel("나이 ▶");
+		lblAge.setBackground(new Color(237, 227, 211));
+		lblAge.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblAge.setFont(new Font("굴림", Font.BOLD, 14));
+		lblAge.setBounds(28, 262, 144, 37);
 		pn1.add(lblAge);
 		
-		JLabel lblGender = new JLabel("성별");
-		lblGender.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGender.setFont(new Font("굴림", Font.PLAIN, 14));
-		lblGender.setBounds(44, 332, 144, 37);
+		JLabel lblGender = new JLabel("성별 ▶");
+		lblGender.setBackground(new Color(237, 227, 211));
+		lblGender.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblGender.setFont(new Font("굴림", Font.BOLD, 14));
+		lblGender.setBounds(28, 332, 144, 37);
 		pn1.add(lblGender);
 		
-		JLabel lblEmail = new JLabel("이메일");
-		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
-		lblEmail.setFont(new Font("굴림", Font.PLAIN, 14));
-		lblEmail.setBounds(44, 402, 144, 37);
+		JLabel lblEmail = new JLabel("이메일 ▶");
+		lblEmail.setBackground(new Color(237, 227, 211));
+		lblEmail.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblEmail.setFont(new Font("굴림", Font.BOLD, 14));
+		lblEmail.setBounds(28, 402, 144, 37);
 		pn1.add(lblEmail);
 		
-		JLabel lblTel = new JLabel("전화번호");
-		lblTel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblTel.setFont(new Font("굴림", Font.PLAIN, 14));
-		lblTel.setBounds(44, 472, 144, 37);
+		JLabel lblTel = new JLabel("전화번호 ▶");
+		lblTel.setBackground(new Color(237, 227, 211));
+		lblTel.setHorizontalAlignment(SwingConstants.RIGHT);
+		lblTel.setFont(new Font("굴림", Font.BOLD, 14));
+		lblTel.setBounds(28, 472, 144, 37);
 		pn1.add(lblTel);
 		
 		textTel = new JTextField();
+		textTel.setBackground(new Color(247, 242, 234));
 		textTel.setHorizontalAlignment(SwingConstants.LEFT);
-		textTel.setFont(new Font("굴림", Font.PLAIN, 14));
+		textTel.setFont(new Font("굴림", Font.BOLD, 14));
 		textTel.setColumns(10);
 		textTel.setBounds(227, 467, 187, 42);
 		textTel.setText(cVO.getTel());
 		pn1.add(textTel);
 		
 		textEmail = new JTextField();
+		textEmail.setBackground(new Color(247, 242, 234));
 		textEmail.setHorizontalAlignment(SwingConstants.LEFT);
-		textEmail.setFont(new Font("굴림", Font.PLAIN, 14));
+		textEmail.setFont(new Font("굴림", Font.BOLD, 14));
 		textEmail.setColumns(10);
 		textEmail.setBounds(227, 402, 187, 42);
 		textEmail.setText(cVO.getEmail());
 		pn1.add(textEmail);
 		
 		textAge = new JTextField();
+		textAge.setBackground(new Color(247, 242, 234));
 		textAge.setHorizontalAlignment(SwingConstants.LEFT);
-		textAge.setFont(new Font("굴림", Font.PLAIN, 14));
+		textAge.setFont(new Font("굴림", Font.BOLD, 14));
 		textAge.setColumns(10);
 		textAge.setBounds(255, 257, 116, 42);
 		textAge.setText(String.valueOf(cVO.getAge()));
 		pn1.add(textAge);
 		
 		JLabel lblAgeMan = new JLabel("만");
+		lblAgeMan.setBackground(new Color(237, 227, 211));
 		lblAgeMan.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAgeMan.setFont(new Font("굴림", Font.PLAIN, 16));
+		lblAgeMan.setFont(new Font("굴림", Font.BOLD, 14));
 		lblAgeMan.setBounds(214, 257, 41, 42);
 		pn1.add(lblAgeMan);
 		
 		JLabel lblAgeSe = new JLabel("세");
+		lblAgeSe.setBackground(new Color(237, 227, 211));
 		lblAgeSe.setHorizontalAlignment(SwingConstants.CENTER);
-		lblAgeSe.setFont(new Font("굴림", Font.PLAIN, 16));
+		lblAgeSe.setFont(new Font("굴림", Font.BOLD, 14));
 		lblAgeSe.setBounds(373, 259, 41, 42);
 		pn1.add(lblAgeSe);
 		
 		JRadioButton rdMale = new JRadioButton("남자");
-		rdMale.setFont(new Font("굴림", Font.PLAIN, 14));
+		rdMale.setBackground(new Color(237, 227, 211));
+		rdMale.setFont(new Font("굴림", Font.BOLD, 14));
 		rdMale.setBounds(226, 339, 67, 23);
 		pn1.add(rdMale);
 		
 		JRadioButton rdFemale = new JRadioButton("여자");
+		rdFemale.setBackground(new Color(237, 227, 211));
 		rdFemale.setSelected(true);
-		rdFemale.setFont(new Font("굴림", Font.PLAIN, 14));
+		rdFemale.setFont(new Font("굴림", Font.BOLD, 14));
 		rdFemale.setBounds(317, 339, 67, 23);
 		pn1.add(rdFemale);
 		
 		textName = new JTextField();
+		textName.setBackground(new Color(247, 242, 234));
 		textName.setHorizontalAlignment(SwingConstants.LEFT);
-		textName.setFont(new Font("굴림", Font.PLAIN, 14));
+		textName.setFont(new Font("굴림", Font.BOLD, 14));
 		textName.setColumns(10);
 		textName.setBounds(227, 192, 187, 42);
 		textName.setText(cVO.getName());
 		pn1.add(textName);
 		
 		textPwd = new JTextField();
+		textPwd.setBackground(new Color(247, 242, 234));
 		textPwd.setHorizontalAlignment(SwingConstants.LEFT);
-		textPwd.setFont(new Font("굴림", Font.PLAIN, 14));
+		textPwd.setFont(new Font("굴림", Font.BOLD, 14));
 		textPwd.setColumns(10);
 		textPwd.setBounds(227, 122, 187, 42);
 		textPwd.setText(cVO.getPwd());
 		pn1.add(textPwd);
 		
 		textId = new JTextField();
+		textId.setBackground(new Color(237, 227, 211));
 		textId.setEditable(false);
 		textId.setHorizontalAlignment(SwingConstants.LEFT);
-		textId.setFont(new Font("굴림", Font.PLAIN, 14));
+		textId.setFont(new Font("굴림", Font.BOLD, 14));
 		textId.setColumns(10);
 		textId.setBounds(227, 52, 187, 42);
 		textId.setText(cVO.getId());
 		pn1.add(textId);
 		
 		JPanel pn2 = new JPanel();
-		pn2.setBounds(499, 0, 285, 561);
+		pn2.setBackground(new Color(237, 227, 211));
+		pn2.setBounds(492, 0, 292, 561);
 		contentPane.add(pn2);
 		pn2.setLayout(null);
 		
 		JButton btnUpdate = new JButton("정 보 수 정");
-		btnUpdate.setFont(new Font("굴림", Font.PLAIN, 15));
+		btnUpdate.setBackground(new Color(74, 125, 82));
+		btnUpdate.setForeground(new Color(237, 227, 211));
+		btnUpdate.setFont(new Font("굴림", Font.BOLD, 14));
 		btnUpdate.setBounds(60, 388, 167, 62);
 		pn2.add(btnUpdate);
 		
 		JButton btnDelete = new JButton("회 원 탈 퇴");
-		btnDelete.setFont(new Font("굴림", Font.PLAIN, 15));
+		btnDelete.setBackground(new Color(74, 125, 82));
+		btnDelete.setForeground(new Color(237, 227, 211));
+		btnDelete.setFont(new Font("굴림", Font.BOLD, 14));
 		btnDelete.setBounds(60, 460, 167, 62);
 		pn2.add(btnDelete);
 		
 		JButton btnExit = new JButton("나 가 기");
-		btnExit.setFont(new Font("굴림", Font.PLAIN, 15));
+		btnExit.setBackground(new Color(74, 125, 82));
+		btnExit.setForeground(new Color(237, 227, 211));
+		btnExit.setFont(new Font("굴림", Font.BOLD, 14));
 		btnExit.setBounds(60, 316, 167, 62);
 		pn2.add(btnExit);
 		

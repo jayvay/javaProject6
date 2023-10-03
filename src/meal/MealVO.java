@@ -9,12 +9,12 @@ public class MealVO {
 	private double aMealKcal;
 	
 	private double dayKcal;
+	private double intakeMul;
 	private String strYY;
 	private String strMM;
 	private String strDD;
 	private String strHH;
 	private String strmm;
-	
 	public int getmIdx() {
 		return mIdx;
 	}
@@ -51,6 +51,12 @@ public class MealVO {
 	public void setDayKcal(double dayKcal) {
 		this.dayKcal = dayKcal;
 	}
+	public double getIntakeMul() {
+		return intakeMul;
+	}
+	public void setIntakeMul(double intakeMul) {
+		this.intakeMul = intakeMul;
+	}
 	public String getStrYY() {
 		return strYY;
 	}
@@ -85,8 +91,8 @@ public class MealVO {
 	@Override
 	public String toString() {
 		return "MealVO [mIdx=" + mIdx + ", meal=" + meal + ", mealTime=" + mealTime + ", mealMenu=" + mealMenu
-				+ ", aMealKcal=" + aMealKcal + ", dayKcal=" + dayKcal + ", strYY=" + strYY + ", strMM=" + strMM
-				+ ", strDD=" + strDD + ", strHH=" + strHH + ", strmm=" + strmm + "]";
+				+ ", aMealKcal=" + aMealKcal + ", dayKcal=" + dayKcal + ", intakeMul=" + intakeMul + ", strYY=" + strYY
+				+ ", strMM=" + strMM + ", strDD=" + strDD + ", strHH=" + strHH + ", strmm=" + strmm + "]";
 	}
 	
 }
