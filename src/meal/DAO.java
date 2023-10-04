@@ -231,6 +231,7 @@ public class DAO {
 			
 			while(rs.next()) {
 				Vector fVO = new Vector<>();
+				
 				String foodName = rs.getString("foodName");
 				int fIdx =rs.getInt("fIdx"); 
 				
@@ -249,6 +250,28 @@ public class DAO {
 		}
 		return vData;
 	}
+	
+	public ArrayList<FoodVO> getFoodList2() {
+		ArrayList<FoodVO> vos = new ArrayList<FoodVO>();
+		try {
+			sql = "select * from food order by fIdx desc";
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				fVO = new FoodVO();
+				fVO.setProductName(rs.getString("productName"));
+				vos.add(fVO);
+			}
+			
+		} catch (SQLException e) {
+			System.out.println("SQL 오류 : " + e.getMessage());
+		} finally {
+			rsClose();
+		}
+		return vos;
+	}
+	
 
 	public int setFoodUpdate(FoodVO fVO) {	//음식수정
 		res = 0;
@@ -313,18 +336,19 @@ public class DAO {
 		return res;
 	}
 
-	public int setMealInput(MealVO mVO, int i) {
+	public int setMealInput(MealVO mVO) {
 		res = 0;
 		try {
-			if(i == 0) sql = "update meal set meal = ?, mealTime = ?, mealMenu = ?, aMealKcal = ? where mIdx = ?";
-			else if(i == 1) sql = "insert into meal (meal,mealTime,mealMenu,aMealKcal,midx) values (?,?,?,?,?)";
+//			if(i == 0) sql = "update meal set meal = ?, mealTime = ?, mealMenu = ?, aMealKcal = ? where mIdx = ?";
+//			else if(i == 1) sql = "insert into meal (meal,mealTime,mealMenu,aMealKcal,midx) values (?,?,?,?,?)";
+			sql = "insert into meal values (default,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, mVO.getMeal());
 			pstmt.setString(2, mVO.getMealTime());
 			pstmt.setString(3, mVO.getMealMenu());
 			pstmt.setDouble(4, mVO.getaMealKcal());
 //			pstmt.setDouble(5, mVO.getDayKcal());
-			pstmt.setInt(5, mVO.getmIdx());
+//			pstmt.setInt(5, mVO.getmIdx());
 			res = pstmt.executeUpdate();
 			
 		} catch (SQLException e) {
@@ -427,11 +451,10 @@ public class DAO {
 			
 			while(rs.next()) {
 				Vector vo = new Vector<>();
-				vo.add(rs.getInt("mIdx"));
-				vo.add(rs.getString("meal"));
 				vo.add(rs.getString("mealTime"));
-				vo.add(rs.getString("mealMenu"));
+				vo.add(rs.getString("meal"));
 				vo.add(rs.getDouble("aMealKcal"));
+				vo.add(rs.getString("mealMenu"));
 //				vo.add(rs.getDouble("dayKcal"));
 				vData.add(vo);
 			}
@@ -557,13 +580,13 @@ public class DAO {
 	}
 
 	
-	public MealVO getDayKcal(String mealTime) {
+	public MealVO getDayKcal(String mealDate) {
 		
 		try {
 			sql = "select sum(aMealKcal) as dayKcal from meal where date(mealTime) = ?";
 			System.out.println("sql : " + sql);
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, mealTime);
+			pstmt.setString(1, mealDate);
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -584,6 +607,8 @@ public class DAO {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 
 
 }

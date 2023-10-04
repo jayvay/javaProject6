@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.regex.Pattern;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,6 +26,7 @@ public class CompanionInfo extends JFrame {
 	private JTextField textName;
 	private JTextField textPwd;
 	private JTextField textId;
+	private ButtonGroup buttonGroup = new ButtonGroup();
 	
 	DAO dao = new DAO();
 	MealVO mVO = new MealVO();
@@ -143,14 +145,18 @@ public class CompanionInfo extends JFrame {
 		rdMale.setBackground(new Color(237, 227, 211));
 		rdMale.setFont(new Font("굴림", Font.BOLD, 14));
 		rdMale.setBounds(226, 339, 67, 23);
+		buttonGroup.add(rdMale);
 		pn1.add(rdMale);
 		
 		JRadioButton rdFemale = new JRadioButton("여자");
 		rdFemale.setBackground(new Color(237, 227, 211));
-		rdFemale.setSelected(true);
 		rdFemale.setFont(new Font("굴림", Font.BOLD, 14));
 		rdFemale.setBounds(317, 339, 67, 23);
+		buttonGroup.add(rdFemale);
 		pn1.add(rdFemale);
+		
+		if(cVO.getGender().equals("남자")) rdMale.setSelected(true);
+		else if(cVO.getGender().equals("여자")) rdFemale.setSelected(true);
 		
 		textName = new JTextField();
 		textName.setBackground(new Color(247, 242, 234));

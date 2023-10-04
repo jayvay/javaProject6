@@ -321,7 +321,7 @@ public class FoodInput extends JFrame {
 					} else {
 						JOptionPane.showMessageDialog(null, "음식이 등록되었습니다.");
 						dispose();
-						new MealInput();
+						new MealInput(null);
 					}
 				}
 			
@@ -331,7 +331,7 @@ public class FoodInput extends JFrame {
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new MealInput();
+				new MealInput(null);
 			}
 		});
 		

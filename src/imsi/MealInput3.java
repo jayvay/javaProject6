@@ -1,38 +1,38 @@
-package meal;
+package imsi;
 
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Vector;
-import java.util.regex.Pattern;
 
-import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
-public class MealInput extends JFrame {
+import meal.DAO;
+import meal.FoodInput;
+import meal.FoodSearch;
+import meal.FoodVO;
+import meal.MainMenu;
+import meal.MealVO;
+
+public class MealInput3 extends JFrame {
 
 	private JPanel contentPane;
 	private ButtonGroup buttonGroup = new ButtonGroup();
@@ -45,11 +45,13 @@ public class MealInput extends JFrame {
 	DAO dao = new DAO();
 	FoodVO fVO = new FoodVO();
 	MealVO mVO = null;
+	//public MealVO mVO2 = null;
 	
 	int res = 0;
 
 	
-	public MealInput(MealVO mVO2) {
+	public MealInput3(MealVO mVO2) {
+		//this.mVO2 = mVO2;
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Bobmukja_오늘의식단");
 		setSize(800, 600);
@@ -63,7 +65,7 @@ public class MealInput extends JFrame {
 		
 		JPanel pn2 = new JPanel();
 		pn2.setBackground(new Color(254, 239, 216));
-		pn2.setBounds(0, 318, 784, 233);
+		pn2.setBounds(0, 328, 784, 233);
 		contentPane.add(pn2);
 		pn2.setLayout(null);
 	
@@ -240,21 +242,14 @@ public class MealInput extends JFrame {
 		textAreaSelFoods.setEditable(false);
 		textAreaSelFoods.setFont(new Font("굴림", Font.BOLD, 14));
 		scrollPane.setViewportView(textAreaSelFoods);
-		String temp = "";
-		if(mVO2 != null) {
-			String[] foodTemps = mVO2.getMealMenu().split("/");
-			for(String f : foodTemps) {
-				temp += f + "\n";
-			}
-		  textAreaSelFoods.setText(temp);
-		}
+		textAreaSelFoods.setText(mVO.getMealMenu());
 		
-		JButton btnBack = new JButton("되돌리기");
-		btnBack.setFont(new Font("굴림", Font.BOLD, 13));
-		btnBack.setForeground(new Color(88, 72, 48));
-		btnBack.setBackground(new Color(244, 200, 134));
-		btnBack.setBounds(48, 68, 89, 119);
-		pn1.add(btnBack);
+		JButton btnF5 = new JButton("새로고침");
+		btnF5.setFont(new Font("굴림", Font.BOLD, 13));
+		btnF5.setForeground(new Color(88, 72, 48));
+		btnF5.setBackground(new Color(244, 200, 134));
+		btnF5.setBounds(48, 68, 89, 119);
+		pn1.add(btnF5);
 		
 		JLabel lblImg = new JLabel("New label");
 		lblImg.setBounds(0, 0, 784, 265);
@@ -263,12 +258,12 @@ public class MealInput extends JFrame {
 		imgBack =	imageSetSize(imgBack, 800, 700);
 		lblImg.setIcon(imgBack);
 		
-		JButton btnDelete = new JButton("RESET");
-		btnDelete.setForeground(new Color(88, 72, 48));
-		btnDelete.setBackground(new Color(244, 200, 134));
-		btnDelete.setFont(new Font("Arial Black", Font.BOLD, 14));
-		btnDelete.setBounds(644, 80, 110, 51);
-		pn2.add(btnDelete);
+		JButton btnReset = new JButton("RESET");
+		btnReset.setForeground(new Color(88, 72, 48));
+		btnReset.setBackground(new Color(244, 200, 134));
+		btnReset.setFont(new Font("Arial Black", Font.BOLD, 14));
+		btnReset.setBounds(644, 80, 110, 51);
+		pn2.add(btnReset);
 		
 		JButton btnExit = new JButton("EXIT");
 		btnExit.setForeground(new Color(88, 72, 48));
@@ -327,7 +322,8 @@ public class MealInput extends JFrame {
 		});
 		
 
-		btnBack.addActionListener(new ActionListener() {
+		btnF5.addActionListener(new ActionListener() {
+			MealVO mVO2 = null;
 			public void actionPerformed(ActionEvent e) {
 				//mVO = dao.getMealSearch(mVO2, 0);
 				System.out.println("mVO2로 다 왔니" + mVO2);
@@ -377,12 +373,12 @@ public class MealInput extends JFrame {
 //					System.out.println("mVO 1 aMealKcal: " + mVO.getaMealKcal());
 //					System.out.println();
 					
-					res = dao.setMealInput(mVO2);
-					if(res == 0) JOptionPane.showMessageDialog(null, "입력 오류 발생!1 다시 시도하세요.");
-					res = 0;
+//					res = dao.setMealInput(mVO2);
+//					System.out.println("mVO-한끼칼로리까지:" + mVO);
+//					if(res == 0) JOptionPane.showMessageDialog(null, "입력 오류 발생!1 다시 시도하세요.");
+//					res = 0;
 					
-					System.out.println("필드에 있는 mVO:" + mVO);
-					System.out.println("생성자 매개변수 mVO2:" + mVO2);
+				
 					
 //					vos = dao.getDaySearch(mealDate);
 //					double dayKcal = 0;
@@ -391,37 +387,37 @@ public class MealInput extends JFrame {
 //						dayKcal += mVO.getaMealKcal();
 //					}
 //					textDayKcal.setText(String.valueOf(dayKcal));
-					
-					
-					MealVO mVO3 = dao.getDayKcal(mealDate);
-					System.out.println("mVO3데이칼로리!!3"+mVO3);
-					mVO2.setDayKcal(mVO3.getDayKcal());	
+					mVO = dao.getDayKcal(mealDate);
+					mVO2.setDayKcal(mVO.getDayKcal());	
 //					System.out.println("mVO2-데이칼로리 포함:" + mVO2);
 //					System.out.println("mVO-데이칼로리 포함:" + mVO);
 					
 					textAMealKcal.setText(String.valueOf(mVO2.getaMealKcal()));
 					textDayKcal.setText(String.valueOf(mVO2.getDayKcal()));
-					System.out.println("필드에 있는 mVO2:" + mVO);
-					System.out.println("생성자 매개변수 mVO22:" + mVO2);
 					
-					mVO3 = dao.getMealSearch(mVO2, 1);
+					MealVO mVO3 = dao.getMealSearch(mVO2, 1);
 //					System.out.println("mVO3:" + mVO3);
-					if(mVO3.getmIdx() != 0) {
+					if(mVO3.getMeal() != null) {
 						res = dao.getMealOverlapdelete(mVO2);
 						if(res == 0) JOptionPane.showMessageDialog(null, "중복된 식사 삭제 오류 발생! 다시 시도하세요.");
 					}
 					
-					res = dao.setMealInput(mVO2);
-					if(res == 0) JOptionPane.showMessageDialog(null, "입력 오류 발생!2 다시 시도하세요.");
-					
+					res = dao.setMealInput(mVO);
+					if(res == 0) JOptionPane.showMessageDialog(null, "입력 오류 발생! 다시 시도하세요.");
+					System.out.println("필드에 있는 mVO:" + mVO);
+					System.out.println("생성자 매개변수 mVO2:" + mVO2);
 				}
 			}
 		});
 		
-		btnDelete.addActionListener(new ActionListener() {
+		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int ans = JOptionPane.showConfirmDialog(null, "다시 입력", "입력 중인 식단을 삭제하시겠습니까?", JOptionPane.YES_NO_OPTION);
 				if(ans == JOptionPane.YES_OPTION) {
+//					mVO = dao.getMealSearch(mVO2, 0);
+//					res = dao.setMealDelete(mVO, "temp");
+//					System.out.println(mVO.getmIdx());
+					if(res == 0) JOptionPane.showMessageDialog(null, "오류 발생! 다시 시도하세요.");
 					mVO = defaultMealTime();
 					cbYY.setSelectedItem(mVO.getStrYY());
 					cbMM.setSelectedItem(mVO.getStrMM());

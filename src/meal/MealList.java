@@ -6,6 +6,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.regex.Pattern;
 
@@ -39,18 +43,18 @@ public class MealList extends JFrame {
 	private JButton btnAsc;
 	private JButton btnDesc;
 	private JButton btnMealDelete;
+	private JButton btnF5;
+	private JComboBox cbFoodInfor;
 	
 	Vector title, vData;
 	DefaultTableModel dtm;
 	
 	DAO dao = new DAO();
 	MealVO mVO = null;
+	FoodVO fVO = null;
 	
 	int res = 0;
-	private JButton btnF5;
-	private JButton btnSelect;
-	private JButton btnNewButton;
-	private JComboBox cbFood;
+	
 	
 	public MealList() {
 		setTitle("Bobmukja_나의식단일지");
@@ -157,50 +161,27 @@ public class MealList extends JFrame {
 		btnF5.setBounds(644, 446, 94, 82);
 		pn1.add(btnF5);
 		
+		cbFoodInfor = new JComboBox();
+		cbFoodInfor.setBounds(126, 446, 356, 43);
+		pn1.add(cbFoodInfor);
 		
-		btnSelect = new JButton("상세정보");
-		btnSelect.setForeground(new Color(249, 245, 240));
-		btnSelect.setFont(new Font("굴림", Font.BOLD, 14));
-		btnSelect.setBackground(new Color(178, 159, 135));
-		btnSelect.setBounds(22, 446, 94, 82);
-		pn1.add(btnSelect);
+		btnFoodDetail = new JButton();
+		btnFoodDetail.setForeground(new Color(249, 245, 240));
+		btnFoodDetail.setBackground(new Color(74, 125, 82));
+		btnFoodDetail.setFont(new Font("굴림", Font.BOLD, 13));
+		btnFoodDetail.setText("상세정보");
+		btnFoodDetail.setBounds(22, 446, 94, 43);
+		pn1.add(btnFoodDetail);
 		
-	
-		/*---------------------------------------------*/
-		btnSelect.addActionListener(new ActionListener() {
+		/*-------------------------------------------------------*/
+		
+		btnFoodDetail.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int row = tbl.getSelectedRow();
-				Vector vdata = (Vector) vData.get(row);
-				String [] listSelFood = vdata.get(3).toString().split("/");
-				
-				JScrollPane scrollList = new JScrollPane();
-				scrollList.setBounds(126, 452, 356, 44);
-				pn1.add(scrollList);
-				
-				cbFood = new JComboBox();
-				cbFood.setBackground(new Color(242, 236, 225));
-				scrollList.setViewportView(cbFood);
-				for(int i=0; i<listSelFood.length; i++) {
-					cbFood.addItem(listSelFood[i]);
-				}
-				
-				btnFoodDetail = new JButton("음식 상세정보");
-				btnFoodDetail.setForeground(new Color(249, 245, 240));
-				btnFoodDetail.setBackground(new Color(178, 159, 135));
-				scrollList.setRowHeaderView(btnFoodDetail);
-				btnFoodDetail.setFont(new Font("굴림", Font.BOLD, 13));
-				
-				btnFoodDetail.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						String food = cbFood.getSelectedItem().toString();
-						FoodVO fVO = dao.getFoodSearch(food);
-						new FoodSearchDetail(fVO);
-						cbFood.removeAllItems();
-					}
-				});
+				String food = cbFoodInfor.getSelectedItem().toString();
+				FoodVO fVO = dao.getFoodSearch(food);
+				new FoodSearchDetail(fVO);
 			}
 		});
-		
 		
 		btnMealDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -270,6 +251,28 @@ public class MealList extends JFrame {
 				new MainMenu();
 			}
 		});
+		
+		
+		tbl.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int row = tbl.getSelectedRow();
+				int col = tbl.getSelectedColumn();
+				
+				Object value = tbl.getValueAt(row, 3);	//꺼낸다
+				
+				//System.out.println("value : " + value);
+				
+				String[] foodMenus = value.toString().split("/");
+				
+				//cbFoodInfor = new JComboBox(foodMenus);
+				cbFoodInfor.removeAllItems();
+				for(String foodMenu : foodMenus) {
+					cbFoodInfor.addItem(foodMenu);
+				}
+				pn1.add(cbFoodInfor);
+			}
+		});
 	}
 	
 	
@@ -315,9 +318,7 @@ public class MealList extends JFrame {
 		dtm.setDataVector(vData, title); 
 		//JTable 안의 셀의 내용을 가운데 정렬
 		tableCellAlign(tbl);
-		tbl.getColumnModel().getColumn(0).setMaxWidth(100);
-		tbl.getColumnModel().getColumn(1).setMaxWidth(100);
-		tbl.getColumnModel().getColumn(2).setMaxWidth(100);
+		tbl.getColumnModel().getColumn(1).setMaxWidth(70);
+		tbl.getColumnModel().getColumn(2).setMaxWidth(70);
 	}
-	
 }

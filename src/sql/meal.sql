@@ -24,7 +24,9 @@ create table meal(
 );
 
 select * from meal order by midx desc;
-delete from meal where midx = 3;
+delete from meal where midx = 36;
+delete from meal where midx = 34;
+delete from meal where midx = 32;
 drop table meal;
 
 create table food(

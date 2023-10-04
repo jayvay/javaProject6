@@ -51,9 +51,10 @@ public class FoodSearch extends JFrame {
 	private JTextField textChoiceFood;
 	private JButton btnChoiceFood;
 	private JLabel lblIntake;
+	private JButton btnF5;
 	
 	@SuppressWarnings("unchecked")
-	public FoodSearch(String mealTime) {
+	public FoodSearch() {
 //		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setTitle("Bobmukja_음식검색");
 		setSize(700, 600);
@@ -90,7 +91,7 @@ public class FoodSearch extends JFrame {
 		btnDetail = new JButton("상세정보");
 		btnDetail.setForeground(new Color(255, 255, 255));
 		btnDetail.setBackground(new Color(178, 159, 135));
-		btnDetail.setBounds(548, 39, 118, 62);
+		btnDetail.setBounds(548, 71, 118, 54);
 		pn1.add(btnDetail);
 		btnDetail.setFont(new Font("굴림", Font.BOLD, 14));
 		
@@ -98,20 +99,20 @@ public class FoodSearch extends JFrame {
 		btnChoiceFood.setForeground(new Color(255, 255, 255));
 		btnChoiceFood.setBackground(new Color(178, 159, 135));
 		btnChoiceFood.setFont(new Font("굴림", Font.BOLD, 14));
-		btnChoiceFood.setBounds(548, 111, 118, 62);
+		btnChoiceFood.setBounds(548, 135, 118, 54);
 		pn1.add(btnChoiceFood);
 		
 		btnExit = new JButton("나가기");
 		btnExit.setForeground(new Color(255, 255, 255));
 		btnExit.setBackground(new Color(178, 159, 135));
-		btnExit.setBounds(548, 255, 118, 62);
+		btnExit.setBounds(548, 263, 118, 54);
 		pn1.add(btnExit);
 		btnExit.setFont(new Font("굴림", Font.BOLD, 14));
 		
 		JButton btnReset = new JButton("다시선택");
 		btnReset.setForeground(new Color(255, 255, 255));
 		btnReset.setBackground(new Color(178, 159, 135));
-		btnReset.setBounds(548, 183, 118, 62);
+		btnReset.setBounds(548, 199, 118, 54);
 		pn1.add(btnReset);
 		btnReset.setFont(new Font("굴림", Font.BOLD, 14));
 		
@@ -182,11 +183,29 @@ public class FoodSearch extends JFrame {
 		pn2.add(lblChoiceFood);
 		
 		tableCellAlign(tbl);
+		
+		btnF5 = new JButton("새로고침");
+		btnF5.setForeground(Color.WHITE);
+		btnF5.setFont(new Font("굴림", Font.BOLD, 14));
+		btnF5.setBackground(new Color(178, 159, 135));
+		btnF5.setBounds(548, 21, 118, 43);
+		pn1.add(btnF5);
 		tbl.getColumnModel().getColumn(0).setMaxWidth(30);
 		tbl.getColumnModel().getColumn(2).setMaxWidth(80);
 		tbl.getColumnModel().getColumn(3).setMaxWidth(80);
 
 		/*--------------------------------------------*/
+		
+		btnF5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				vData = dao.getFoodList();
+				dtm.setDataVector(vData, title); 
+				tableCellAlign(tbl);
+				tbl.getColumnModel().getColumn(0).setMaxWidth(30);
+				tbl.getColumnModel().getColumn(2).setMaxWidth(80);
+				tbl.getColumnModel().getColumn(3).setMaxWidth(80);
+			}
+		});
 		
 		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -202,7 +221,7 @@ public class FoodSearch extends JFrame {
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new MealInput();
+				new MealInput(null);
 			}
 		});
 		
@@ -247,7 +266,6 @@ public class FoodSearch extends JFrame {
 					JOptionPane.showMessageDialog(null, "음식을 추가하세요.");
 				}
 				else {
-					mVO.setMealTime(mealTime);
 					int res = 0;
 					String temp = "";
 					
@@ -257,10 +275,12 @@ public class FoodSearch extends JFrame {
 						temp += f + "/";
 					}
 					mVO.setMealMenu(temp.substring(0,temp.length()-1));
+
 					
-					res = dao.setMealMenuInput(mVO);
-					if(res == 0) JOptionPane.showMessageDialog(null, "저장 실패! 다시 시도하세요.");
-					else JOptionPane.showMessageDialog(null, "저장 성공!");
+					
+					//res = dao.setMealMenuInput(mVO);
+					//if(res == 0) JOptionPane.showMessageDialog(null, "저장 실패! 다시 시도하세요.");
+					//else JOptionPane.showMessageDialog(null, "저장 성공!");
 					
 					System.out.println("다 들어있니..?"+ mVO);
 					dispose();
@@ -281,4 +301,5 @@ public class FoodSearch extends JFrame {
 			tcm.getColumn(i).setCellRenderer(dtcr);
 		}
 	}
+	
 }

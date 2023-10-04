@@ -150,7 +150,7 @@ public class FoodSearch2 extends JFrame {
 		btnExit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
-				new MealInput();
+				new MealInput(null);
 			}
 		});
 		
